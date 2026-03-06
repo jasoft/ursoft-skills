@@ -364,13 +364,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def doctor(as_json: bool) -> int:
-    venv_python = Path(__file__).with_name(".venv").joinpath("bin/python")
     checks = {
+        "uv": shutil_which("uv"),
         "osascript": shutil_which("osascript"),
         "screencapture": shutil_which("screencapture"),
         "sips": shutil_which("sips"),
         "python3": shutil_which("python3"),
-        "venv_python": str(venv_python) if venv_python.exists() else None,
         "aistudio_ocr_api_url_configured": bool(os.environ.get("AISTUDIO_OCR_API_URL")),
         "aistudio_ocr_token_configured": bool(os.environ.get("AISTUDIO_OCR_TOKEN")),
         "aistudio_ocr_configured": bool(os.environ.get("AISTUDIO_OCR_TOKEN") and os.environ.get("AISTUDIO_OCR_API_URL")),

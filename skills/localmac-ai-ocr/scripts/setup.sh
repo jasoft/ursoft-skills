@@ -2,12 +2,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-VENV_DIR="$ROOT_DIR/.venv"
 
-python3 -m venv "$VENV_DIR"
-. "$VENV_DIR/bin/activate"
-python -m pip install --upgrade pip
-python -m pip install -r "$ROOT_DIR/requirements.txt"
+if ! command -v uv >/dev/null 2>&1; then
+  echo "找不到 uv，请先安装 uv。" >&2
+  exit 1
+fi
+
+uv sync --project "$ROOT_DIR"
 
 if [[ ! -f "$ROOT_DIR/.env" && -f "$ROOT_DIR/.env.example" ]]; then
   cp "$ROOT_DIR/.env.example" "$ROOT_DIR/.env"

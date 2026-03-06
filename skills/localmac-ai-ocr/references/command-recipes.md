@@ -20,8 +20,7 @@ SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 ```
 
 `setup.sh` 会：
-- 创建 `scripts/.venv`
-- 安装 `requirements.txt`
+- 用 `uv sync` 安装 `pyproject.toml` 里的依赖
 - 如果不存在 `scripts/.env`，自动从 `.env.example` 复制一份模板
 
 ## 配置 API
