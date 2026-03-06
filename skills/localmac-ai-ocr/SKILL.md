@@ -2,17 +2,16 @@
 name: localmac-ai-ocr
 description: Use when 需要在 macOS 本机或 RDP 场景下抓屏、识别中文界面文字与坐标、按文字定位并点击界面，尤其适合远程桌面窗口、行情软件、自选列表、按钮输入框定位和截图取字。
 metadata:
-  openclaw:
-    requires:
-      env:
-        - AISTUDIO_OCR_TOKEN
-        - AISTUDIO_OCR_API_URL
-      bins:
-        - python3
-        - osascript
-        - screencapture
-        - sips
-    primaryEnv: AISTUDIO_OCR_TOKEN
+    openclaw:
+        requires:
+            env:
+                - AISTUDIO_OCR_TOKEN
+                - AISTUDIO_OCR_API_URL
+            bins:
+                - python3
+                - osascript
+                - /usr/sbin/screencapture
+                - sips
 ---
 
 # Localmac AI OCR
@@ -20,6 +19,7 @@ metadata:
 ## 概览
 
 这个 skill 用来协同两个现成命令行工具：
+
 - `scripts/gui` 负责窗口激活、截图、坐标点击、键盘输入
 - `scripts/ocr` 负责调用 AI Studio OCR 输出文字、分数、坐标框，并支持按文本查找和点击
 
@@ -93,6 +93,7 @@ python -m pip install -r requirements.txt
 ### 3. 先配置必填项
 
 这个 skill 的云端 OCR 有两个必填配置：
+
 - `AISTUDIO_OCR_API_URL`
 - `AISTUDIO_OCR_TOKEN`
 
@@ -131,6 +132,7 @@ SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 ```
 
 规则：
+
 - 先 `list-windows`，再 `activate`
 - 截图优先落到 `/tmp`
 - 已知区域就传 `--rect`，不确定时先全图截图再裁切
@@ -167,30 +169,35 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 ## 快速命令
 
 - 完整 OCR JSON：
+
 ```bash
 SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" "$SKILL_DIR/scripts/ocr" ocr /tmp/rdp.png --format json
 ```
 
 - 只看纯文本：
+
 ```bash
 SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" "$SKILL_DIR/scripts/ocr" ocr /tmp/rdp.png --format text
 ```
 
 - 查文字并输出中心点：
+
 ```bash
 SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" "$SKILL_DIR/scripts/ocr" find /tmp/rdp.png --query 00700 --mode exact --center --format json
 ```
 
 - 对识别结果打框：
+
 ```bash
 SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" "$SKILL_DIR/scripts/ocr" annotate /tmp/rdp.png /tmp/rdp-annotated.png --query 腾讯控股
 ```
 
 - 测 10 次速度：
+
 ```bash
 SKILL_DIR="${CODEX_HOME:-$HOME/.codex}/skills/localmac-ai-ocr"
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" "$SKILL_DIR/scripts/ocr" benchmark /tmp/rdp.png --backend aistudio-ocr --repeat 10
