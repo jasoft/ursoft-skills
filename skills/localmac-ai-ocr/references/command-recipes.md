@@ -15,10 +15,10 @@ export AISTUDIO_OCR_API_URL='你的 OCR 接口地址'
 ## RDP/桌面 App 标准配方
 
 ```bash
-/Users/weiwang/Projects/localmac/gui list-windows
-/Users/weiwang/Projects/localmac/gui activate --title 打新股
-/Users/weiwang/Projects/localmac/gui capture /tmp/rdp.png --rect 0,30,2243,1266
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr find /tmp/rdp.png --query 腾讯控股 --mode contains --center --format json
+./gui list-windows
+./gui activate --title 打新股
+./gui capture /tmp/rdp.png --rect 0,30,2243,1266
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr find /tmp/rdp.png --query 腾讯控股 --mode contains --center --format json
 ```
 
 如果命中结果超过 1 个：
@@ -29,14 +29,14 @@ AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr fi
 ## 截图后按文字点击
 
 ```bash
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr click-text /tmp/rdp.png --query 买入 --mode exact
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr click-text /tmp/rdp.png --query 买入 --mode exact
 ```
 
 更稳的方式：
 
 ```bash
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr find /tmp/rdp.png --query 买入 --mode exact --center --format json
-/Users/weiwang/Projects/localmac/gui click 1200 700
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr find /tmp/rdp.png --query 买入 --mode exact --center --format json
+./gui click 1200 700
 ```
 
 适合这些情况：
@@ -47,7 +47,7 @@ AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr fi
 ## 取完整 JSON
 
 ```bash
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr ocr /tmp/rdp.png --format json > /tmp/ocr.json
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr ocr /tmp/rdp.png --format json > /tmp/ocr.json
 ```
 
 返回重点字段通常包括：
@@ -59,14 +59,14 @@ AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr oc
 ## 标注与裁图
 
 ```bash
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr annotate /tmp/rdp.png /tmp/annotated.png --query 腾讯控股
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr crop-matches /tmp/rdp.png /tmp/crops --query 腾讯控股
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr annotate /tmp/rdp.png /tmp/annotated.png --query 腾讯控股
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr crop-matches /tmp/rdp.png /tmp/crops --query 腾讯控股
 ```
 
 ## 性能测试
 
 ```bash
-AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" /Users/weiwang/Projects/localmac/ocr benchmark /tmp/rdp.png --backend aistudio-ocr --repeat 10
+AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" ./ocr benchmark /tmp/rdp.png --backend aistudio-ocr --repeat 10
 ```
 
 先用一张固定测试图比较，再换真实业务截图；不要把不同尺寸的图混在一起比较耗时。
