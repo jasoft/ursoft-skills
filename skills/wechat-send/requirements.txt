@@ -1,0 +1,3 @@
+# Minimal dependencies - uses system tools and localmac-ai-ocr
+# Python standard library only (subprocess, json, time, pathlib, etc.)
+# localmac-ai-ocr is consumed through its public CLI entrypoints, not its venv path
