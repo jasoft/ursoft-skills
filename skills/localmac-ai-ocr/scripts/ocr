@@ -1,0 +1,31 @@
+#!/bin/zsh
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT="$ROOT_DIR/ocr_tool.py"
+VENV_PYTHON="$ROOT_DIR/.venv/bin/python"
+
+if [[ -f "$ROOT_DIR/.env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  . "$ROOT_DIR/.env"
+  set +a
+fi
+
+if [[ -n "${OCR_SKILL_PYTHON:-}" ]]; then
+  PYTHON_BIN="$OCR_SKILL_PYTHON"
+elif [[ -x "$VENV_PYTHON" ]]; then
+  PYTHON_BIN="$VENV_PYTHON"
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="$(command -v python3)"
+else
+  echo "找不到可用的 python3，请先安装 Python 或设置 OCR_SKILL_PYTHON。" >&2
+  exit 1
+fi
+
+if ! "$PYTHON_BIN" -c "import PIL, requests" >/dev/null 2>&1; then
+  echo "缺少依赖，请先在 $ROOT_DIR 下创建 .venv 并安装 requirements.txt。" >&2
+  exit 1
+fi
+
+exec "$PYTHON_BIN" "$SCRIPT" "$@"

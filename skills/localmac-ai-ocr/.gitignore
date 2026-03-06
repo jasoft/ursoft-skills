@@ -1,0 +1,4 @@
+scripts/.env
+scripts/.venv/
+scripts/__pycache__/
+scripts/fixtures/__pycache__/
