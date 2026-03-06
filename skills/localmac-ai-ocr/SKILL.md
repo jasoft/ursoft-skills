@@ -1,6 +1,18 @@
 ---
 name: localmac-ai-ocr
 description: Use when 需要在 macOS 本机或 RDP 场景下抓屏、识别中文界面文字与坐标、按文字定位并点击界面，尤其适合远程桌面窗口、行情软件、自选列表、按钮输入框定位和截图取字。
+metadata:
+  openclaw:
+    requires:
+      env:
+        - AISTUDIO_OCR_TOKEN
+        - AISTUDIO_OCR_API_URL
+      bins:
+        - python3
+        - osascript
+        - screencapture
+        - sips
+    primaryEnv: AISTUDIO_OCR_TOKEN
 ---
 
 # Localmac AI OCR
