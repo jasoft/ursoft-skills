@@ -364,6 +364,16 @@ def find_matches(items: list[Item], query: str, mode: str = "contains", ignore_c
     return found
 
 
+def select_match_index(matches: list[Item], index: int | None) -> list[Item]:
+    if index is None:
+        return matches
+    if index < 1:
+        raise SystemExit("--index 必须从 1 开始")
+    if index > len(matches):
+        raise SystemExit(f"--index={index} 超出命中范围，当前只有 {len(matches)} 个结果")
+    return [matches[index - 1]]
+
+
 def crop_matches(image_path: Path, matches: list[Item], output_dir: Path, padding: int = 10) -> list[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     image = Image.open(image_path)
@@ -385,29 +395,85 @@ def crop_matches(image_path: Path, matches: list[Item], output_dir: Path, paddin
     return outputs
 
 
-def annotate_image(image_path: Path, output_path: Path, items: list[Item], color: str = "#e11d48") -> Path:
+def annotation_lines(
+    item: Item,
+    *,
+    include_text: bool = True,
+    include_center: bool = True,
+    include_score: bool = True,
+) -> list[str]:
+    left, top, right, bottom = item["bbox"]
+    parts: list[str] = []
+    if include_text:
+        text = str(item.get("text") or "").strip()
+        if text:
+            parts.append(text if len(text) <= 36 else f"{text[:33]}...")
+    if include_center:
+        center_x = (left + right) // 2
+        center_y = (top + bottom) // 2
+        parts.append(f"center=({center_x},{center_y})")
+    if include_score:
+        score = item.get("score")
+        if score is not None:
+            parts.append(f"score={float(score):.3f}")
+    return parts
+
+
+def annotate_image(
+    image_path: Path,
+    output_path: Path,
+    items: list[Item],
+    color: str = "#e11d48",
+    *,
+    include_text: bool = True,
+    include_center: bool = True,
+    include_score: bool = True,
+) -> Path:
     image = Image.open(image_path).convert("RGB")
     draw = ImageDraw.Draw(image)
     label_font = load_font(20)
     for item in items:
         left, top, right, bottom = item["bbox"]
         draw.rounded_rectangle((left, top, right, bottom), outline=color, width=3, radius=6)
-        label = item["text"]
-        label_bbox = draw.textbbox((left, top), label, font=label_font)
-        label_bg = (left, max(0, top - (label_bbox[3] - label_bbox[1]) - 10), left + (label_bbox[2] - label_bbox[0]) + 16, top)
+        lines = annotation_lines(
+            item,
+            include_text=include_text,
+            include_center=include_center,
+            include_score=include_score,
+        )
+        if not lines:
+            continue
+        label = "\n".join(lines)
+        label_bbox = draw.multiline_textbbox((left, top), label, font=label_font, spacing=4)
+        label_height = label_bbox[3] - label_bbox[1]
+        label_width = label_bbox[2] - label_bbox[0]
+        label_top = max(0, top - label_height - 10)
+        label_bg = (left, label_top, left + label_width + 16, label_top + label_height + 8)
         draw.rounded_rectangle(label_bg, radius=8, fill=color)
-        draw.text((label_bg[0] + 8, label_bg[1] + 2), label, font=label_font, fill="#ffffff")
+        draw.multiline_text((label_bg[0] + 8, label_bg[1] + 4), label, font=label_font, fill="#ffffff", spacing=4)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     image.save(output_path)
     return output_path
 
 
-def click_match(match: Item, clicker: Callable[..., None] = gui_toolkit.click, count: int = 1) -> tuple[int, int]:
+def click_match(
+    match: Item,
+    image_size_value: tuple[int, int],
+    clicker: Callable[..., None] = gui_toolkit.click,
+    count: int = 1,
+    screen_rect: str | None = None,
+) -> tuple[int, int]:
     left, top, right, bottom = match["bbox"]
     center_x = (left + right) // 2
     center_y = (top + bottom) // 2
-    clicker(center_x, center_y, count=count)
-    return center_x, center_y
+    screen_x, screen_y = gui_toolkit.image_point_to_screen_point(
+        center_x,
+        center_y,
+        image_size_value,
+        screen_rect=screen_rect,
+    )
+    clicker(screen_x, screen_y, count=count)
+    return round(screen_x), round(screen_y)
 
 
 def render_items(items: list[Item], output_format: str = "json") -> str:
@@ -494,6 +560,12 @@ def build_parser() -> argparse.ArgumentParser:
     shared.add_argument("--backend", choices=BACKEND_CHOICES, default="auto")
     shared.add_argument("--aistudio-api-url")
     shared.add_argument("--aistudio-token")
+    shared.add_argument("--screen-rect", help='截图对应的屏幕区域，格式 "x,y,width,height"，单位为屏幕 point')
+    shared.add_argument("--annotate-output", type=Path, help="把识别结果画框到图片文件，便于 agent 复核框、坐标和置信度")
+    shared.add_argument("--annotate-color", default="#e11d48", help="标注图的框线与标签颜色，默认 #e11d48")
+    shared.add_argument("--annotate-no-text", action="store_true", help="标注图标签里不显示识别文本")
+    shared.add_argument("--annotate-no-center", action="store_true", help="标注图标签里不显示中心坐标")
+    shared.add_argument("--annotate-no-score", action="store_true", help="标注图标签里不显示置信度")
     shared.add_argument("--lock-path", default=str(DEFAULT_LOCK_PATH))
     shared.add_argument("--lock-timeout", type=float, default=DEFAULT_LOCK_TIMEOUT)
     shared.add_argument("--no-lock", action="store_true")
@@ -505,6 +577,7 @@ def build_parser() -> argparse.ArgumentParser:
     find_cmd.add_argument("--query", required=True)
     find_cmd.add_argument("--mode", choices=["exact", "contains", "regex"], default="contains")
     find_cmd.add_argument("--first", action="store_true")
+    find_cmd.add_argument("--index", type=int, help="只返回第几个命中项，按阅读顺序从 1 开始")
     find_cmd.add_argument("--format", choices=["json", "text", "tsv"], default="json")
 
     annotate_cmd = sub.add_parser("annotate", help="输出带框标注图", parents=[shared])
@@ -521,6 +594,8 @@ def build_parser() -> argparse.ArgumentParser:
     click_cmd.add_argument("--query", required=True)
     click_cmd.add_argument("--mode", choices=["exact", "contains", "regex"], default="contains")
     click_cmd.add_argument("--count", type=int, default=1)
+    click_cmd.add_argument("--first", action="store_true", help="存在多个命中时仍点击第一个，否则直接报错")
+    click_cmd.add_argument("--index", type=int, help="点击第几个命中项，按阅读顺序从 1 开始")
 
     rows_cmd = sub.add_parser("rows", help="按行分组输出", parents=[shared])
     rows_cmd.add_argument("--format", choices=["json", "text", "tsv"], default="json")
@@ -586,7 +661,18 @@ def main() -> int:
             print(render_items(rows, args.format))
             return 0
 
-        items, _ = parse_items(args.image, args)
+        items, size = parse_items(args.image, args)
+
+        if getattr(args, "annotate_output", None):
+            annotate_image(
+                args.image,
+                args.annotate_output,
+                items,
+                color=args.annotate_color,
+                include_text=not args.annotate_no_text,
+                include_center=not args.annotate_no_center,
+                include_score=not args.annotate_no_score,
+            )
 
         if args.command == "ocr":
             print(render_items(items, args.format))
@@ -594,12 +680,21 @@ def main() -> int:
 
         if args.command == "find":
             matches = find_matches(items, args.query, mode=args.mode, first=args.first)
+            matches = select_match_index(matches, args.index)
             print(render_items(matches, args.format))
             return 0
 
         if args.command == "annotate":
             matches = items if not args.query else find_matches(items, args.query, mode=args.mode)
-            annotate_image(args.image, args.output, matches)
+            annotate_image(
+                args.image,
+                args.output,
+                matches,
+                color=args.annotate_color,
+                include_text=not args.annotate_no_text,
+                include_center=not args.annotate_no_center,
+                include_score=not args.annotate_no_score,
+            )
             print(args.output)
             return 0
 
@@ -610,10 +705,18 @@ def main() -> int:
             return 0
 
         if args.command == "click-text":
-            matches = find_matches(items, args.query, mode=args.mode, first=True)
+            matches = find_matches(items, args.query, mode=args.mode, first=args.first)
             if not matches:
                 raise SystemExit("未找到目标文本")
-            x, y = click_match(matches[0], count=args.count)
+            matches = select_match_index(matches, args.index)
+            if len(matches) > 1 and not args.first:
+                raise SystemExit(f"命中 {len(matches)} 处文本，请先缩小截图范围或显式传 --first")
+            x, y = click_match(
+                matches[0],
+                size,
+                count=args.count,
+                screen_rect=args.screen_rect,
+            )
             print(json.dumps({"text": matches[0]["text"], "center": [x, y]}, ensure_ascii=False, indent=2))
             return 0
 

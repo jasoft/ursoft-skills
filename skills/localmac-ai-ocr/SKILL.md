@@ -133,6 +133,7 @@ scripts/gui capture /tmp/rdp.png --rect 0,30,2243,1266
 
 ```bash
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr ocr /tmp/rdp.png --format json
+AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr ocr /tmp/rdp.png --format json --annotate-output /tmp/rdp-annotated.png
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr find /tmp/rdp.png --query 腾讯控股 --mode contains --center --format json
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr click-text /tmp/rdp.png --query 腾讯控股 --mode contains
 ```
@@ -149,10 +150,46 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 
 1. `ocr find --format json --center`
 2. 检查命中数量、文字是否歧义
-3. 必要时加 `--first`、`--mode exact` 或缩小截图范围
+3. 必要时加 `--index N`、`--mode exact` 或缩小截图范围
 4. 再执行 `click-text` 或 `gui click`
 
 如果界面中同名文本很多，先裁图再识别，不要直接点击全屏第一个命中项。
+
+### 8. 实测稳定点击流程
+
+这是小的在真实桌面里验证过、最适合 agent 复用的顺序：
+
+1. 先截图到 `/tmp`
+2. 用 `ocr find --center --format json --annotate-output ...` 找目标文字
+3. 看命中数量
+4. 如果只有 1 个命中，直接 `click-text --index 1`
+5. 如果有多个命中，优先：
+   - 改 `--mode exact`
+   - 或显式传 `--index N`
+   - 或缩小截图区域后再识别
+6. 点击后立即再截一张图核验界面是否变化
+
+实测命令模板：
+
+```bash
+scripts/gui capture /tmp/current.png
+AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr find /tmp/current.png --query 自动化 --mode contains --center --format json --annotate-output /tmp/current-annotated.png
+AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr click-text /tmp/current.png --query 自动化 --mode contains --index 3
+scripts/gui capture /tmp/after-click.png
+```
+
+这套流程适合：
+
+- 左侧菜单
+- 顶部标签
+- 右上角菜单栏文字，例如“微信输入法”
+- 聊天窗口、日志窗口、配置页等文本密集界面
+
+注意：
+
+- `click-text` 现在默认会把截图像素坐标换算成实际屏幕 point，再点击，适配 Retina 屏
+- 如果截图来自局部区域而不是整屏，点击时要补 `--screen-rect "x,y,width,height"`
+- 如果只想给 agent 复核，不立刻点，先保留 `find --annotate-output` 的结果图
 
 ## 快速命令
 
@@ -160,6 +197,12 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 
 ```bash
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr ocr /tmp/rdp.png --format json
+```
+
+- 完整 OCR JSON + 输出带框标注图：
+
+```bash
+AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr ocr /tmp/rdp.png --format json --annotate-output /tmp/rdp-annotated.png
 ```
 
 - 只看纯文本：
@@ -172,6 +215,12 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 
 ```bash
 AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr find /tmp/rdp.png --query 00700 --mode exact --center --format json
+```
+
+- 多命中时取第 2 个结果：
+
+```bash
+AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" scripts/ocr find /tmp/rdp.png --query 自动化 --mode contains --index 2 --center --format json
 ```
 
 - 对识别结果打框：
@@ -201,3 +250,36 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 - 可执行脚本位于 `scripts/`
 - 如果任务是“截图 -> 找字 -> 点击”，优先按参考里的 RDP 配方执行
 - 如需自定义云端接口地址，只引用变量名，不写真实值
+
+## Agent API 速查
+
+面向 agent 时，优先记住下面这些参数语义：
+
+- `scripts/ocr ocr IMAGE --format json`
+  作用：返回所有识别项，字段通常包含 `text`、`score`、`bbox`、`quad`
+- `--center`
+  作用：在 JSON 结果里额外补 `center=[x,y]`，便于后续点击或日志记录
+- `--relative`
+  作用：在 JSON 结果里额外补相对坐标，适合跨分辨率比对
+- `--rows`
+  作用：把相邻文字聚合成行，适合菜单、表格行、日志列表
+- `--annotate-output PATH`
+  作用：把当前命令对应的识别结果同步画框到图片
+  默认标签内容：识别文本、中心坐标、置信度
+- `--annotate-no-text`
+  作用：标注图里不显示识别文本，只保留坐标和置信度
+- `--annotate-no-center`
+  作用：标注图里不显示中心坐标
+- `--annotate-no-score`
+  作用：标注图里不显示置信度
+- `--annotate-color '#RRGGBB'`
+  作用：调整框线和标签颜色，方便在深色或浅色背景下复核
+- `scripts/ocr find IMAGE --query 文本 --mode contains --format json`
+  作用：筛出命中项。点击前先看这里，不要盲点
+- `--index N`
+  作用：只取第 N 个命中项，按阅读顺序从 1 开始
+- `scripts/ocr click-text IMAGE --query 文本`
+  作用：按识别框中心点击
+  默认行为：若命中多处会报错，避免误点；确需指定某一个时显式传 `--index N`
+- `--screen-rect "x,y,width,height"`
+  作用：告诉工具“这张图对应屏幕上的哪个区域”，让区域截图点击时坐标能正确换算

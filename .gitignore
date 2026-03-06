@@ -1,0 +1,23 @@
+.DS_Store
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local environments
+.env
+.env.*
+.venv/
+venv/
+
+# Skill-local runtime artifacts
+skills/**/scripts/.env
+skills/**/scripts/.venv/
+skills/**/scripts/__pycache__/
+skills/**/scripts/fixtures/__pycache__/
+
+# Editor / OS
+.idea/
+.vscode/

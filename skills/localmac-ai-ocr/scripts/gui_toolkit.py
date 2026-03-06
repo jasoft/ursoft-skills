@@ -40,6 +40,14 @@ class CGPoint(ctypes.Structure):
     _fields_ = [("x", ctypes.c_double), ("y", ctypes.c_double)]
 
 
+class CGSize(ctypes.Structure):
+    _fields_ = [("width", ctypes.c_double), ("height", ctypes.c_double)]
+
+
+class CGRect(ctypes.Structure):
+    _fields_ = [("origin", CGPoint), ("size", CGSize)]
+
+
 core_graphics = ctypes.CDLL(APPLICATION_SERVICES)
 core_graphics.CGEventCreateMouseEvent.restype = ctypes.c_void_p
 core_graphics.CGEventCreateMouseEvent.argtypes = [
@@ -50,6 +58,13 @@ core_graphics.CGEventCreateMouseEvent.argtypes = [
 ]
 core_graphics.CGEventPost.argtypes = [ctypes.c_uint32, ctypes.c_void_p]
 core_graphics.CFRelease.argtypes = [ctypes.c_void_p]
+core_graphics.CGMainDisplayID.restype = ctypes.c_uint32
+core_graphics.CGDisplayBounds.argtypes = [ctypes.c_uint32]
+core_graphics.CGDisplayBounds.restype = CGRect
+core_graphics.CGDisplayPixelsWide.argtypes = [ctypes.c_uint32]
+core_graphics.CGDisplayPixelsWide.restype = ctypes.c_size_t
+core_graphics.CGDisplayPixelsHigh.argtypes = [ctypes.c_uint32]
+core_graphics.CGDisplayPixelsHigh.restype = ctypes.c_size_t
 try:
     core_graphics.CGEventSetIntegerValueField.argtypes = [
         ctypes.c_void_p,
@@ -101,6 +116,53 @@ def click(x: float, y: float, count: int = 1) -> None:
         mouse_event(1, x, y, current)
         mouse_event(2, x, y, current)
         time.sleep(0.08)
+
+
+def parse_rect(rect: str) -> tuple[float, float, float, float]:
+    parts = [part.strip() for part in rect.split(",")]
+    if len(parts) != 4:
+        raise ValueError(f"Rect 必须是 x,y,width,height: {rect}")
+    x, y, width, height = [float(part) for part in parts]
+    if width <= 0 or height <= 0:
+        raise ValueError(f"Rect 的 width/height 必须大于 0: {rect}")
+    return x, y, width, height
+
+
+def main_display_geometry() -> dict[str, float]:
+    display_id = core_graphics.CGMainDisplayID()
+    bounds = core_graphics.CGDisplayBounds(display_id)
+    return {
+        "x": float(bounds.origin.x),
+        "y": float(bounds.origin.y),
+        "width_points": float(bounds.size.width),
+        "height_points": float(bounds.size.height),
+        "width_pixels": float(core_graphics.CGDisplayPixelsWide(display_id)),
+        "height_pixels": float(core_graphics.CGDisplayPixelsHigh(display_id)),
+    }
+
+
+def image_point_to_screen_point(
+    image_x: float,
+    image_y: float,
+    image_size: tuple[int, int],
+    screen_rect: str | None = None,
+) -> tuple[float, float]:
+    image_width, image_height = image_size
+    if image_width <= 0 or image_height <= 0:
+        raise ValueError(f"非法图片尺寸: {image_size}")
+
+    if screen_rect:
+        screen_x, screen_y, screen_width, screen_height = parse_rect(screen_rect)
+        return (
+            screen_x + image_x * (screen_width / image_width),
+            screen_y + image_y * (screen_height / image_height),
+        )
+
+    display = main_display_geometry()
+    return (
+        display["x"] + image_x * (display["width_points"] / image_width),
+        display["y"] + image_y * (display["height_points"] / image_height),
+    )
 
 
 def activate_windows_app(window_title: str | None) -> None:
