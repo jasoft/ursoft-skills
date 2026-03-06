@@ -1,0 +1,3 @@
+interface:
+  display_name: "Localmac AI OCR"
+  short_description: "在 macOS 和 RDP 场景中抓屏、OCR 取字并按文本定位点击"
