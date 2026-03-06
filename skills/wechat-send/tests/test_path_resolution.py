@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +47,34 @@ class PathResolutionTests(unittest.TestCase):
     def test_finds_repo_sibling_skill(self) -> None:
         resolved = wechat_auto.resolve_localmac_ai_ocr_dir()
         self.assertEqual(resolved, (ROOT.parent / "localmac-ai-ocr").resolve())
+
+    def test_send_message_refocuses_wechat_before_paste(self) -> None:
+        with mock.patch.object(
+            wechat_auto, "LocalmacTools", autospec=True
+        ) as tools_cls, mock.patch.object(
+            wechat_auto.WeChatAuto, "ensure_wechat_running"
+        ), mock.patch.object(
+            wechat_auto.WeChatAuto, "search_contact", return_value=True
+        ), mock.patch.object(
+            wechat_auto.WeChatAuto, "ensure_wechat_frontmost"
+        ) as ensure_frontmost, mock.patch.object(
+            wechat_auto.WeChatAuto, "run_gui"
+        ) as run_gui, mock.patch.object(
+            wechat_auto, "type_text_via_clipboard"
+        ) as paste_text, mock.patch.object(
+            wechat_auto, "press_return"
+        ):
+            tools = tools_cls.return_value
+            tools.root = Path("/tmp/localmac-ai-ocr")
+            tools.gui = tools.root / "scripts" / "gui"
+            tools.ocr = tools.root / "scripts" / "ocr"
+
+            wc = wechat_auto.WeChatAuto()
+            wc.send_message("文件传输助手", "测试消息")
+
+        ensure_frontmost.assert_called()
+        run_gui.assert_called_once_with("click", "400", "600")
+        paste_text.assert_called_once_with("测试消息")
 
 
 if __name__ == "__main__":
