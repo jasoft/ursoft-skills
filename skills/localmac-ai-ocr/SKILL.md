@@ -12,6 +12,7 @@ metadata:
                 - osascript
                 - /usr/sbin/screencapture
                 - sips
+        primaryEnv: AISTUDIO_OCR_TOKEN
 ---
 
 # Localmac AI OCR
