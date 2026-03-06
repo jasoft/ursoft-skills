@@ -11,7 +11,8 @@
 ├── .gitignore
 └── skills/
     ├── localmac-ai-ocr/
-    └── mumu-manager-cli/
+    ├── mumu-manager-cli/
+    └── wechat-send/
 ```
 
 ## 目录约定
@@ -41,6 +42,7 @@
 
 - `localmac-ai-ocr`：面向 macOS / RDP 场景的截图、OCR、按文字定位与点击
 - `mumu-manager-cli`：面向 MuMu 模拟器 12 的命令行管理与自动化操作
+- `wechat-send`：在 macOS 桌面版微信上自动化发送消息，支持剪贴板粘贴与 OCR 校验
 
 ## 建议工作流
 
