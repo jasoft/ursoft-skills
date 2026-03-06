@@ -11,7 +11,6 @@ metadata:
                 - uv
                 - python3
                 - osascript
-                - /usr/sbin/screencapture
                 - sips
         primaryEnv: AISTUDIO_OCR_TOKEN
 ---
@@ -164,9 +163,9 @@ AISTUDIO_OCR_API_URL="$AISTUDIO_OCR_API_URL" AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_T
 3. 看命中数量
 4. 如果只有 1 个命中，直接 `click-text --index 1`
 5. 如果有多个命中，优先：
-   - 改 `--mode exact`
-   - 或显式传 `--index N`
-   - 或缩小截图区域后再识别
+    - 改 `--mode exact`
+    - 或显式传 `--index N`
+    - 或缩小截图区域后再识别
 6. 点击后立即再截一张图核验界面是否变化
 
 实测命令模板：
