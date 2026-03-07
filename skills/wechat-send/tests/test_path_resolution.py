@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import contextlib
+import io
 import os
 import sys
 import tempfile
@@ -75,6 +77,26 @@ class PathResolutionTests(unittest.TestCase):
         ensure_frontmost.assert_called()
         run_gui.assert_called_once_with("click", "400", "600")
         paste_text.assert_called_once_with("测试消息")
+
+    def test_doctor_returns_nonzero_when_required_check_fails(self) -> None:
+        checks = [wechat_auto.DoctorCheck("osascript", False, "missing")]
+        with mock.patch.object(
+            wechat_auto, "collect_doctor_checks", return_value=checks
+        ), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(
+            io.StringIO()
+        ):
+            exit_code = wechat_auto.run_doctor()
+        self.assertEqual(exit_code, 1)
+
+    def test_doctor_returns_zero_when_all_checks_pass(self) -> None:
+        checks = [wechat_auto.DoctorCheck("osascript", True, "/usr/bin/osascript")]
+        with mock.patch.object(
+            wechat_auto, "collect_doctor_checks", return_value=checks
+        ), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(
+            io.StringIO()
+        ):
+            exit_code = wechat_auto.run_doctor()
+        self.assertEqual(exit_code, 0)
 
 
 if __name__ == "__main__":

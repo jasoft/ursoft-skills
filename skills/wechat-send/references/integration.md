@@ -82,5 +82,5 @@ AISTUDIO_OCR_TOKEN="$AISTUDIO_OCR_TOKEN" \
 如果大王后面想把整合做得更规范，小的建议按这个方向：
 
 1. 给 `localmac-ai-ocr` 明确定义公共命令契约，只在 `SKILL.md` 写 `gui` 和 `ocr` 的稳定子命令
-2. 给 `wechat-send` 增加 `doctor`、`capture-before-send`、`verify-contact` 这类编排能力
+2. 给 `wechat-send` 继续补 `capture-before-send`、`verify-contact` 这类编排能力
 3. 让跨 skill 依赖统一走 `SKILL_DIR` 发现逻辑或环境变量，而不是每个 skill 自己乱猜路径

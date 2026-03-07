@@ -69,7 +69,10 @@ python3 scripts/wechat_auto.py doctor
 
 - `WeChat` 是否可启动
 - `osascript`、`pbcopy`、`pbpaste` 是否可用
-- `localmac-ai-ocr` 的 `scripts/gui` 和 `scripts/ocr` 是否能被发现
+- `localmac-ai-ocr` 的 `scripts/gui` 和 `scripts/ocr` 是否能被发现并执行
+- `localmac-ai-ocr` 依赖的 `uv`、`screencapture`、`sips` 与 OCR 后端是否至少有一套可用
+
+任一必需项缺失时，命令会输出错误并以非 0 退出。
 
 ### 2. 直接发送消息
 
