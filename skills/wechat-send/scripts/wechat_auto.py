@@ -14,7 +14,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional, Sequence, Tuple
 
-
 ROOT = Path(__file__).resolve().parents[1]
 LOCALMAC_SKILL_NAME = "localmac-ai-ocr"
 DEFAULT_CHAT_INPUT = ("400", "600")
@@ -85,8 +84,7 @@ def type_text_via_clipboard(text: str) -> None:
     if result.returncode != 0:
         stderr = result.stderr.strip()
         raise RuntimeError(
-            "Failed to copy text to clipboard"
-            + (f": {stderr}" if stderr else "")
+            "Failed to copy text to clipboard" + (f": {stderr}" if stderr else "")
         )
 
     script = """
@@ -261,8 +259,7 @@ end tell
             if launch.returncode != 0:
                 stderr = launch.stderr.strip()
                 raise RuntimeError(
-                    "Failed to launch WeChat"
-                    + (f": {stderr}" if stderr else "")
+                    "Failed to launch WeChat" + (f": {stderr}" if stderr else "")
                 )
             time.sleep(3.0)
         else:
@@ -305,7 +302,6 @@ end tell
             raise RuntimeError(f"Could not find contact: {contact_name}")
 
         self.ensure_wechat_frontmost()
-        self.run_gui("click", *DEFAULT_CHAT_INPUT)
         time.sleep(self.delay)
 
         type_text_via_clipboard(message)
@@ -387,7 +383,9 @@ def downstream_doctor_checks(tools: LocalmacTools) -> Iterable[DoctorCheck]:
     yield DoctorCheck("localmac ocr:backend", backend_ready, detail)
 
 
-def collect_doctor_checks(explicit_ocr_skill_dir: Optional[str] = None) -> List[DoctorCheck]:
+def collect_doctor_checks(
+    explicit_ocr_skill_dir: Optional[str] = None,
+) -> List[DoctorCheck]:
     checks = [
         command_check("python3"),
         command_check("osascript"),
