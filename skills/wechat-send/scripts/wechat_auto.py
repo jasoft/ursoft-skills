@@ -303,6 +303,8 @@ end tell
 
         self.ensure_wechat_frontmost()
         time.sleep(self.delay)
+        self.run_gui("click", *DEFAULT_CHAT_INPUT)
+        time.sleep(self.delay)
 
         type_text_via_clipboard(message)
         time.sleep(0.5)
