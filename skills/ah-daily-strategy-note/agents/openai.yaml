@@ -1,0 +1,4 @@
+interface:
+  display_name: "A/H Daily Strategy Note"
+  short_description: "生成 A股与港股一页式日度策略简报"
+  default_prompt: "Use $ah-daily-strategy-note to draft a one-page A/H equities daily strategy note with sell-side structure and strong information design."

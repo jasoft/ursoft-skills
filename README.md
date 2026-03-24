@@ -10,6 +10,7 @@
 ├── README.md
 ├── .gitignore
 └── skills/
+    ├── ah-daily-strategy-note/
     ├── localmac-ai-ocr/
     ├── mumu-manager-cli/
     └── wechat-send/
@@ -40,6 +41,7 @@
 
 ## 已有 Skills
 
+- `ah-daily-strategy-note`：生成一页式 A股 / 港股日度策略简报，强调卖方风格、强结构与可直接排版
 - `localmac-ai-ocr`：面向 macOS / RDP 场景的截图、OCR、按文字定位与点击
 - `mumu-manager-cli`：面向 MuMu 模拟器 12 的命令行管理与自动化操作
 - `wechat-send`：在 macOS 桌面版微信上自动化发送消息，支持剪贴板粘贴与 OCR 校验
