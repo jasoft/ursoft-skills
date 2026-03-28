@@ -9,7 +9,7 @@
       content="2026年3月27日A股与港股日度策略简报，两栏式打印版页面，聚焦指数修复质量、A/H差异、盘后驱动与次日观察。"
     />
     <style>
-      /* Theme 01 | Sandstone Ledger (active)
+      /* Theme 01 | Market Report Classic (active)
          Theme 02 | Harbor Blue
          --paper: #e9edf2;
          --sheet: #fdfefe;
@@ -89,30 +89,30 @@
          --source-bg: #f8f2f1;
       */
       :root {
-        --paper: #f5f1ea;
-        --sheet: #fffdf8;
-        --ink: #17304a;
-        --muted: #5c6f82;
-        --line: #d5cec2;
-        --line-strong: #b7ad9e;
-        --accent: #b3422d;
-        --accent-soft: #f5e3dc;
-        --support: #8c6a2f;
-        --support-soft: #efe6d3;
-        --positive: #315f53;
-        --positive-soft: #dce8e3;
-        --page-shadow: 0 24px 60px rgba(23, 48, 74, 0.12);
-        --wash-top: #ece5da;
-        --wash-bottom: #f4efe7;
-        --strip-bg: #f1ede6;
-        --hero-note-bg: #f8f4ed;
-        --market-bg: #f8f4ed;
-        --market-rule: #e7dece;
-        --one-line-bg: #f6f2eb;
-        --driver-bg: #faf6ef;
-        --driver-line: #e9e1d4;
-        --strategy-bg: #f6f2ea;
-        --source-bg: #f7f3ec;
+        --paper: #eef2f5;
+        --sheet: #ffffff;
+        --ink: #1a1a1a;
+        --muted: #66707a;
+        --line: #e0e0e0;
+        --line-strong: #cfd5da;
+        --accent: #c0392b;
+        --accent-soft: #f7e0dc;
+        --support: #2c3e50;
+        --support-soft: #e8edf2;
+        --positive: #27ae60;
+        --positive-soft: #dff3e7;
+        --page-shadow: 0 22px 56px rgba(44, 62, 80, 0.12);
+        --wash-top: #eef2f5;
+        --wash-bottom: #f6f8fa;
+        --strip-bg: #ffffff;
+        --hero-note-bg: #f0f4f8;
+        --market-bg: #fafafa;
+        --market-rule: #e5e5e5;
+        --one-line-bg: #f0f4f8;
+        --driver-bg: #fafafa;
+        --driver-line: #e3e7ea;
+        --strategy-bg: #f6f8fa;
+        --source-bg: #f5f7f9;
       }
 
       * {
@@ -121,7 +121,7 @@
 
       @page {
         size: A4 landscape;
-        margin: 9mm;
+        margin: 0;
       }
 
       html {
@@ -133,6 +133,9 @@
         margin: 0;
         background: linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
         font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       body[data-theme="harbor-blue"] {
@@ -218,40 +221,47 @@
 
       .page {
         width: 297mm;
-        min-height: 210mm;
+        height: 210mm;
         margin: 0 auto;
-        padding: 10mm 11mm 8mm;
+        padding: 8.5mm 9.5mm 7.5mm;
         background: var(--sheet);
         box-shadow: var(--page-shadow);
+        overflow: hidden;
       }
 
       .caps {
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 700;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
+      }
+
+      .screen-shell {
+        padding: 16px;
+      }
+
+      .screen-tools {
+        width: 297mm;
+        margin: 0 auto 10px;
+        display: flex;
+        justify-content: flex-end;
       }
 
       .top-strip {
         display: grid;
         grid-template-columns: 1fr 1fr 0.95fr;
-        border: 1px solid var(--line);
+        border-top: 2.5px solid var(--accent);
+        border-bottom: 1px solid var(--line);
         background: var(--strip-bg);
       }
 
       .top-strip div {
-        padding: 8px 10px;
+        padding: 6px 8px 7px;
         border-right: 1px solid var(--line);
       }
 
       .top-strip div:last-child {
         border-right: 0;
-      }
-
-      .toolbar {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 10px;
       }
 
       .theme-switcher {
@@ -262,7 +272,7 @@
         border: 1px solid var(--line);
         background: var(--sheet);
         color: var(--muted);
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -284,9 +294,9 @@
       .hero {
         display: grid;
         grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
-        gap: 14px;
-        margin-top: 12px;
-        padding-bottom: 10px;
+        gap: 12px;
+        margin-top: 10px;
+        padding-bottom: 8px;
         border-bottom: 1px solid var(--line);
       }
 
@@ -295,12 +305,12 @@
       }
 
       .kicker {
-        margin: 0 0 8px;
-        font-size: 11px;
+        margin: 0 0 6px;
+        font-size: 9px;
         font-weight: 700;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--support);
+        color: var(--accent);
       }
 
       h1,
@@ -312,26 +322,27 @@
       }
 
       h1 {
-        font-size: 26px;
-        line-height: 1.16;
+        font-size: 23px;
+        line-height: 1.12;
+        color: var(--accent);
       }
 
       .subtitle {
-        margin-top: 8px;
-        font-size: 12px;
+        margin-top: 7px;
+        font-size: 10.8px;
         font-weight: 700;
       }
 
       .source-line {
-        margin-top: 7px;
-        font-size: 10.6px;
-        line-height: 1.45;
+        margin-top: 5px;
+        font-size: 9.6px;
+        line-height: 1.42;
         color: var(--muted);
       }
 
       .hero-note {
-        padding: 12px 13px 11px;
-        border: 1px solid var(--line);
+        padding: 9px 10px 8px;
+        border-left: 4px solid #2980b9;
         background: var(--hero-note-bg);
       }
 
@@ -342,52 +353,79 @@
 
       .hero-note p {
         margin: 0;
-        font-size: 11.5px;
-        line-height: 1.62;
+        font-size: 10.1px;
+        line-height: 1.5;
         text-wrap: pretty;
       }
 
       .hero-note p + p {
-        margin-top: 8px;
+        margin-top: 5px;
       }
 
       .summary-line {
-        margin-top: 8px;
-        padding-top: 8px;
+        margin-top: 7px;
+        padding-top: 6px;
         border-top: 1px solid var(--line);
-        font-size: 10.9px;
-        line-height: 1.58;
+        font-size: 9.7px;
+        line-height: 1.45;
         color: var(--muted);
       }
 
       .layout {
         display: grid;
-        gap: 10px;
-        margin-top: 12px;
+        gap: 8px;
+        margin-top: 10px;
       }
 
       .market-strip {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 8px;
+        gap: 6px;
       }
 
       .analysis-grid {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 10px;
+        gap: 8px;
+      }
+
+      .analysis-grid .panel {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 6px;
+        row-gap: 5px;
+        align-content: start;
+      }
+
+      .analysis-grid .panel .panel-head,
+      .analysis-grid .panel .lead,
+      .analysis-grid .panel .fact-grid {
+        grid-column: 1 / -1;
+      }
+
+      .analysis-grid .panel .one-line,
+      .analysis-grid .panel .sub-block {
+        margin-top: 0;
+      }
+
+      .analysis-grid .panel .sub-block {
+        padding-top: 0;
+        padding-left: 6px;
+        border-top: 0;
+        border-left: 3px solid var(--support);
       }
 
       .bottom-grid {
         display: grid;
         grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
-        gap: 10px;
+        gap: 8px;
       }
 
       .market-card {
-        padding: 8px 9px 7px;
+        padding: 6px 7px 6px;
         border: 1px solid var(--line);
         background: var(--market-bg);
+        border-radius: 4px;
       }
 
       .market-card .caps {
@@ -395,45 +433,46 @@
       }
 
       .market-name {
-        margin-top: 4px;
-        font-size: 15px;
-        font-family: "Songti SC", "STSong", "Source Han Serif SC", serif;
+        margin-top: 3px;
+        font-size: 12px;
         font-weight: 700;
+        color: var(--support);
       }
 
       .market-level {
-        margin-top: 6px;
-        font-size: 16px;
+        margin-top: 4px;
+        font-size: 13px;
         font-weight: 700;
         font-variant-numeric: tabular-nums;
       }
 
       .market-change {
-        margin-top: 2px;
-        font-size: 10.8px;
+        margin-top: 1px;
+        font-size: 9.4px;
         font-weight: 700;
         color: var(--accent);
       }
 
       .market-note {
-        margin-top: 6px;
-        padding-top: 6px;
+        margin-top: 4px;
+        padding-top: 4px;
         border-top: 1px solid var(--market-rule);
-        font-size: 10px;
-        line-height: 1.42;
+        font-size: 8.8px;
+        line-height: 1.35;
         color: var(--muted);
         text-wrap: pretty;
       }
 
       .panel {
-        padding: 11px 12px 10px;
+        padding: 8px 9px 8px;
         border: 1px solid var(--line);
         break-inside: avoid;
+        border-radius: 4px;
       }
 
       .panel h2 {
-        font-size: 18px;
-        line-height: 1.2;
+        font-size: 15px;
+        line-height: 1.16;
       }
 
       .panel-head {
@@ -441,11 +480,14 @@
         align-items: end;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
 
       .panel-head .caps {
-        color: var(--muted);
+        color: #ffffff;
+        background: var(--support);
+        padding: 3px 7px;
+        border-radius: 3px;
       }
 
       .change-up {
@@ -454,20 +496,21 @@
       }
 
       .lead {
-        margin: 0 0 8px;
-        font-size: 11.3px;
-        line-height: 1.58;
+        margin: 0 0 6px;
+        font-size: 9.8px;
+        line-height: 1.43;
         text-wrap: pretty;
       }
 
       .fact-grid {
         display: grid;
-        gap: 7px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
       }
 
       .fact {
-        padding-top: 7px;
-        border-top: 1px solid #e8e1d5;
+        padding-top: 5px;
+        border-top: 1px solid var(--line);
       }
 
       .fact:first-child {
@@ -476,15 +519,15 @@
       }
 
       .fact h3 {
-        font-size: 10.2px;
+        font-size: 8.9px;
         line-height: 1.3;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: var(--support);
       }
 
       .fact ul {
-        margin: 5px 0 0;
+        margin: 4px 0 0;
         padding: 0;
         list-style: none;
       }
@@ -492,9 +535,9 @@
       .fact li {
         position: relative;
         padding-left: 11px;
-        margin-top: 4px;
-        font-size: 10.8px;
-        line-height: 1.54;
+        margin-top: 3px;
+        font-size: 9.3px;
+        line-height: 1.42;
         text-wrap: pretty;
       }
 
@@ -509,55 +552,56 @@
       }
 
       .one-line {
-        margin-top: 8px;
-        padding: 8px 9px;
+        margin-top: 6px;
+        padding: 6px 8px;
         background: var(--one-line-bg);
         border-left: 3px solid var(--accent);
-        font-size: 10.9px;
-        line-height: 1.52;
+        font-size: 9.4px;
+        line-height: 1.4;
         font-weight: 700;
         text-wrap: pretty;
       }
 
       .sub-block {
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px solid #e8e1d5;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--line);
       }
 
       .sub-block-title {
-        margin: 0 0 6px;
-        font-size: 10px;
+        margin: 0 0 4px;
+        font-size: 8.9px;
         font-weight: 700;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: var(--support);
       }
 
       .driver-list {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 7px;
+        gap: 6px;
       }
 
       .driver {
-        padding: 8px 9px 8px;
+        padding: 6px 7px;
         background: var(--driver-bg);
         border: 1px solid var(--driver-line);
+        border-radius: 4px;
       }
 
       .driver-top {
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
         flex-wrap: wrap;
       }
 
       .tag {
         display: inline-block;
-        padding: 2px 6px;
-        font-size: 9px;
+        padding: 1px 5px;
+        font-size: 7.9px;
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -579,40 +623,41 @@
       }
 
       .driver h3 {
-        font-size: 11.2px;
-        line-height: 1.35;
+        font-size: 9.5px;
+        line-height: 1.28;
       }
 
       .driver p {
-        margin: 4px 0 0;
-        font-size: 10.5px;
-        line-height: 1.48;
+        margin: 3px 0 0;
+        font-size: 8.9px;
+        line-height: 1.36;
         color: var(--muted);
         text-wrap: pretty;
       }
 
       .strategy-grid {
         display: grid;
-        gap: 6px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 4px;
       }
 
       .strategy-item {
-        padding: 7px 9px;
+        padding: 5px 7px;
         background: var(--strategy-bg);
         border-left: 3px solid var(--support);
       }
 
       .strategy-item strong {
         display: block;
-        margin-bottom: 2px;
-        font-size: 9.4px;
+        margin-bottom: 1px;
+        font-size: 8px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       .strategy-item span {
-        font-size: 10.5px;
-        line-height: 1.46;
+        font-size: 8.9px;
+        line-height: 1.34;
         text-wrap: pretty;
       }
 
@@ -623,10 +668,10 @@
       }
 
       .watch-list li {
-        padding: 5px 0;
-        border-top: 1px solid #e8e1d5;
-        font-size: 10.7px;
-        line-height: 1.48;
+        padding: 4px 0;
+        border-top: 1px solid var(--line);
+        font-size: 9.1px;
+        line-height: 1.36;
         text-wrap: pretty;
       }
 
@@ -658,25 +703,27 @@
           background: #ffffff;
         }
 
-        .toolbar {
+        .screen-shell {
+          padding: 0;
+        }
+
+        .screen-tools {
           display: none;
         }
 
         .page {
-          width: auto;
-          min-height: auto;
+          width: 297mm;
+          height: 210mm;
           margin: 0;
-          padding: 0;
           box-shadow: none;
         }
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 1100px) {
         .page {
-          width: auto;
+          width: 100%;
+          height: auto;
           min-height: auto;
-          margin: 0;
-          padding: 20px;
         }
 
         .hero,
@@ -685,35 +732,55 @@
         .analysis-grid,
         .bottom-grid,
         .market-strip,
-        .driver-list {
+        .driver-list,
+        .fact-grid,
+        .strategy-grid {
           grid-template-columns: 1fr;
+        }
+
+        .screen-shell,
+        .screen-tools {
+          width: auto;
+          padding: 10px;
         }
 
         .source-tags {
           justify-content: flex-start;
         }
+
+        .analysis-grid .panel {
+          grid-template-columns: 1fr;
+        }
+
+        .analysis-grid .panel .sub-block {
+          padding-left: 0;
+          border-left: 0;
+          padding-top: 6px;
+          border-top: 1px solid var(--line);
+        }
       }
     </style>
   </head>
   <body>
-    <article class="page">
-      <section class="top-strip caps" aria-label="report labels">
-        <div>Daily Strategy Note</div>
-        <div>A/H Equities</div>
-        <div>Macro risk-on</div>
-      </section>
-
-      <div class="toolbar">
+    <div class="screen-shell">
+      <div class="screen-tools">
         <label class="theme-switcher" for="theme-select">
           Theme
           <select id="theme-select" name="theme">
-            <option value="sandstone-ledger">Sandstone Ledger</option>
+            <option value="market-report-classic">Market Report Classic</option>
             <option value="harbor-blue">Harbor Blue</option>
             <option value="evergreen-brief">Evergreen Brief</option>
             <option value="burgundy-office">Burgundy Office</option>
           </select>
         </label>
       </div>
+
+      <article class="page">
+        <section class="top-strip caps" aria-label="report labels">
+          <div>Daily Strategy Note</div>
+          <div>A/H Equities</div>
+          <div>Macro risk-on</div>
+        </section>
 
       <header class="hero">
         <div class="hero-copy">
@@ -915,15 +982,16 @@
             </div>
           </aside>
         </section>
-      </main>
-    </article>
+        </main>
+      </article>
+    </div>
     <script>
       (() => {
         const select = document.getElementById("theme-select");
         if (!select) return;
 
         const storageKey = "ah-brief-theme";
-        const defaultTheme = "sandstone-ledger";
+        const defaultTheme = "market-report-classic";
         const applyTheme = (theme) => {
           document.body.dataset.theme = theme === defaultTheme ? "" : theme;
           select.value = theme;
