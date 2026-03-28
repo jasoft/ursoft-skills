@@ -9,6 +9,85 @@
       content="2026年3月27日A股与港股日度策略简报，两栏式打印版页面，聚焦指数修复质量、A/H差异、盘后驱动与次日观察。"
     />
     <style>
+      /* Theme 01 | Sandstone Ledger (active)
+         Theme 02 | Harbor Blue
+         --paper: #e9edf2;
+         --sheet: #fdfefe;
+         --ink: #123047;
+         --muted: #5e7388;
+         --line: #ccd6df;
+         --line-strong: #aab8c4;
+         --accent: #9e4c2c;
+         --accent-soft: #f0e0d8;
+         --support: #4b6985;
+         --support-soft: #dde7f0;
+         --positive: #2d6a5b;
+         --positive-soft: #d9e8e2;
+         --page-shadow: 0 24px 60px rgba(18, 48, 71, 0.12);
+         --wash-top: #dfe7ee;
+         --wash-bottom: #edf2f6;
+         --strip-bg: #eef2f5;
+         --hero-note-bg: #f5f7f9;
+         --market-bg: #f4f7f9;
+         --market-rule: #dde4ea;
+         --one-line-bg: #eff3f6;
+         --driver-bg: #f7f9fb;
+         --driver-line: #dfe6ec;
+         --strategy-bg: #eef3f7;
+         --source-bg: #f4f7fa;
+
+         Theme 03 | Evergreen Brief
+         --paper: #e8eee8;
+         --sheet: #fbfcf8;
+         --ink: #173329;
+         --muted: #63776f;
+         --line: #cad3cb;
+         --line-strong: #aeb9b0;
+         --accent: #9d4e32;
+         --accent-soft: #efdfd7;
+         --support: #55705a;
+         --support-soft: #dfe8df;
+         --positive: #2d6650;
+         --positive-soft: #d9e7df;
+         --page-shadow: 0 24px 60px rgba(23, 51, 41, 0.12);
+         --wash-top: #dfe7df;
+         --wash-bottom: #edf2ec;
+         --strip-bg: #edf2ec;
+         --hero-note-bg: #f4f7f1;
+         --market-bg: #f2f6f0;
+         --market-rule: #dde5db;
+         --one-line-bg: #eef2eb;
+         --driver-bg: #f6f9f4;
+         --driver-line: #dfe6dc;
+         --strategy-bg: #edf2eb;
+         --source-bg: #f4f7f1;
+
+         Theme 04 | Burgundy Office
+         --paper: #efe7e6;
+         --sheet: #fffaf8;
+         --ink: #2d2230;
+         --muted: #6f626f;
+         --line: #d9cdcf;
+         --line-strong: #bfaeb2;
+         --accent: #9f3f46;
+         --accent-soft: #f2dde0;
+         --support: #7f5a3b;
+         --support-soft: #ebe0d1;
+         --positive: #426358;
+         --positive-soft: #dce8e2;
+         --page-shadow: 0 24px 60px rgba(45, 34, 48, 0.12);
+         --wash-top: #e7dddd;
+         --wash-bottom: #f2ebea;
+         --strip-bg: #f1e9e8;
+         --hero-note-bg: #f8f1f0;
+         --market-bg: #f8f1f0;
+         --market-rule: #e5d8d8;
+         --one-line-bg: #f6efee;
+         --driver-bg: #faf4f3;
+         --driver-line: #eadede;
+         --strategy-bg: #f5efee;
+         --source-bg: #f8f2f1;
+      */
       :root {
         --paper: #f5f1ea;
         --sheet: #fffdf8;
@@ -22,6 +101,18 @@
         --support-soft: #efe6d3;
         --positive: #315f53;
         --positive-soft: #dce8e3;
+        --page-shadow: 0 24px 60px rgba(23, 48, 74, 0.12);
+        --wash-top: #ece5da;
+        --wash-bottom: #f4efe7;
+        --strip-bg: #f1ede6;
+        --hero-note-bg: #f8f4ed;
+        --market-bg: #f8f4ed;
+        --market-rule: #e7dece;
+        --one-line-bg: #f6f2eb;
+        --driver-bg: #faf6ef;
+        --driver-line: #e9e1d4;
+        --strategy-bg: #f6f2ea;
+        --source-bg: #f7f3ec;
       }
 
       * {
@@ -40,8 +131,7 @@
 
       body {
         margin: 0;
-        background:
-          linear-gradient(180deg, #ece5da 0%, #f4efe7 100%);
+        background: linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
         font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       }
 
@@ -51,7 +141,7 @@
         margin: 0 auto;
         padding: 10mm 11mm 8mm;
         background: var(--sheet);
-        box-shadow: 0 24px 60px rgba(23, 48, 74, 0.12);
+        box-shadow: var(--page-shadow);
       }
 
       .caps {
@@ -65,7 +155,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 0.95fr;
         border: 1px solid var(--line);
-        background: #f1ede6;
+        background: var(--strip-bg);
       }
 
       .top-strip div {
@@ -128,7 +218,7 @@
       .hero-note {
         padding: 12px 13px 11px;
         border: 1px solid var(--line);
-        background: #f8f4ed;
+        background: var(--hero-note-bg);
       }
 
       .hero-note .label {
@@ -183,7 +273,7 @@
       .market-card {
         padding: 8px 9px 7px;
         border: 1px solid var(--line);
-        background: #f8f4ed;
+        background: var(--market-bg);
       }
 
       .market-card .caps {
@@ -214,7 +304,7 @@
       .market-note {
         margin-top: 6px;
         padding-top: 6px;
-        border-top: 1px solid #e7dece;
+        border-top: 1px solid var(--market-rule);
         font-size: 10px;
         line-height: 1.42;
         color: var(--muted);
@@ -307,7 +397,7 @@
       .one-line {
         margin-top: 8px;
         padding: 8px 9px;
-        background: #f6f2eb;
+        background: var(--one-line-bg);
         border-left: 3px solid var(--accent);
         font-size: 10.9px;
         line-height: 1.52;
@@ -338,8 +428,8 @@
 
       .driver {
         padding: 8px 9px 8px;
-        background: #faf6ef;
-        border: 1px solid #e9e1d4;
+        background: var(--driver-bg);
+        border: 1px solid var(--driver-line);
       }
 
       .driver-top {
@@ -394,7 +484,7 @@
 
       .strategy-item {
         padding: 7px 9px;
-        background: #f6f2ea;
+        background: var(--strategy-bg);
         border-left: 3px solid var(--support);
       }
 
@@ -445,7 +535,7 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        background: #f7f3ec;
+        background: var(--source-bg);
       }
 
       @media print {
