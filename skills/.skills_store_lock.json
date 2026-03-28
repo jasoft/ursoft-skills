@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "pdf-generator": {
+      "name": "pdf-generator",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=pdf-generator",
+      "source": "skillhub",
+      "version": ""
+    }
+  }
+}
