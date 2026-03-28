@@ -135,6 +135,87 @@
         font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       }
 
+      body[data-theme="harbor-blue"] {
+        --paper: #e9edf2;
+        --sheet: #fdfefe;
+        --ink: #123047;
+        --muted: #5e7388;
+        --line: #ccd6df;
+        --line-strong: #aab8c4;
+        --accent: #9e4c2c;
+        --accent-soft: #f0e0d8;
+        --support: #4b6985;
+        --support-soft: #dde7f0;
+        --positive: #2d6a5b;
+        --positive-soft: #d9e8e2;
+        --page-shadow: 0 24px 60px rgba(18, 48, 71, 0.12);
+        --wash-top: #dfe7ee;
+        --wash-bottom: #edf2f6;
+        --strip-bg: #eef2f5;
+        --hero-note-bg: #f5f7f9;
+        --market-bg: #f4f7f9;
+        --market-rule: #dde4ea;
+        --one-line-bg: #eff3f6;
+        --driver-bg: #f7f9fb;
+        --driver-line: #dfe6ec;
+        --strategy-bg: #eef3f7;
+        --source-bg: #f4f7fa;
+      }
+
+      body[data-theme="evergreen-brief"] {
+        --paper: #e8eee8;
+        --sheet: #fbfcf8;
+        --ink: #173329;
+        --muted: #63776f;
+        --line: #cad3cb;
+        --line-strong: #aeb9b0;
+        --accent: #9d4e32;
+        --accent-soft: #efdfd7;
+        --support: #55705a;
+        --support-soft: #dfe8df;
+        --positive: #2d6650;
+        --positive-soft: #d9e7df;
+        --page-shadow: 0 24px 60px rgba(23, 51, 41, 0.12);
+        --wash-top: #dfe7df;
+        --wash-bottom: #edf2ec;
+        --strip-bg: #edf2ec;
+        --hero-note-bg: #f4f7f1;
+        --market-bg: #f2f6f0;
+        --market-rule: #dde5db;
+        --one-line-bg: #eef2eb;
+        --driver-bg: #f6f9f4;
+        --driver-line: #dfe6dc;
+        --strategy-bg: #edf2eb;
+        --source-bg: #f4f7f1;
+      }
+
+      body[data-theme="burgundy-office"] {
+        --paper: #efe7e6;
+        --sheet: #fffaf8;
+        --ink: #2d2230;
+        --muted: #6f626f;
+        --line: #d9cdcf;
+        --line-strong: #bfaeb2;
+        --accent: #9f3f46;
+        --accent-soft: #f2dde0;
+        --support: #7f5a3b;
+        --support-soft: #ebe0d1;
+        --positive: #426358;
+        --positive-soft: #dce8e2;
+        --page-shadow: 0 24px 60px rgba(45, 34, 48, 0.12);
+        --wash-top: #e7dddd;
+        --wash-bottom: #f2ebea;
+        --strip-bg: #f1e9e8;
+        --hero-note-bg: #f8f1f0;
+        --market-bg: #f8f1f0;
+        --market-rule: #e5d8d8;
+        --one-line-bg: #f6efee;
+        --driver-bg: #faf4f3;
+        --driver-line: #eadede;
+        --strategy-bg: #f5efee;
+        --source-bg: #f8f2f1;
+      }
+
       .page {
         width: 297mm;
         min-height: 210mm;
@@ -165,6 +246,39 @@
 
       .top-strip div:last-child {
         border-right: 0;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+
+      .theme-switcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        border: 1px solid var(--line);
+        background: var(--sheet);
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .theme-switcher select {
+        min-width: 160px;
+        border: 1px solid var(--line);
+        background: var(--source-bg);
+        color: var(--ink);
+        font: inherit;
+        letter-spacing: normal;
+        text-transform: none;
+        padding: 5px 8px;
+        border-radius: 0;
+        outline: none;
       }
 
       .hero {
@@ -544,6 +658,10 @@
           background: #ffffff;
         }
 
+        .toolbar {
+          display: none;
+        }
+
         .page {
           width: auto;
           min-height: auto;
@@ -584,6 +702,18 @@
         <div>A/H Equities</div>
         <div>Macro risk-on</div>
       </section>
+
+      <div class="toolbar">
+        <label class="theme-switcher" for="theme-select">
+          Theme
+          <select id="theme-select" name="theme">
+            <option value="sandstone-ledger">Sandstone Ledger</option>
+            <option value="harbor-blue">Harbor Blue</option>
+            <option value="evergreen-brief">Evergreen Brief</option>
+            <option value="burgundy-office">Burgundy Office</option>
+          </select>
+        </label>
+      </div>
 
       <header class="hero">
         <div class="hero-copy">
@@ -787,5 +917,27 @@
         </section>
       </main>
     </article>
+    <script>
+      (() => {
+        const select = document.getElementById("theme-select");
+        if (!select) return;
+
+        const storageKey = "ah-brief-theme";
+        const defaultTheme = "sandstone-ledger";
+        const applyTheme = (theme) => {
+          document.body.dataset.theme = theme === defaultTheme ? "" : theme;
+          select.value = theme;
+        };
+
+        const savedTheme = window.localStorage.getItem(storageKey) || defaultTheme;
+        applyTheme(savedTheme);
+
+        select.addEventListener("change", (event) => {
+          const nextTheme = event.target.value || defaultTheme;
+          applyTheme(nextTheme);
+          window.localStorage.setItem(storageKey, nextTheme);
+        });
+      })();
+    </script>
   </body>
 </html>
