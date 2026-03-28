@@ -2,10 +2,7 @@
 name: ah-daily-strategy-note
 description: Use when 需要生成 A股/港股/ A/H equities 的日度策略简报、一页 PDF 券商风格策略页、收盘复盘加盘后线索摘要，并要求强结构、结论先行、可直接排版的卖方投行式输出。
 metadata:
-  openclaw:
-    requires:
-      bins:
-        - python3
+  openclaw: {}
 ---
 
 # A/H Daily Strategy Note
@@ -14,6 +11,7 @@ metadata:
 
 这个 skill 用来生成单页卖方策略简报，默认口径是“收盘复盘 + 盘后线索”。
 目标不是写新闻合集，而是产出可以直接贴进 PDF 版式的一页策略页。
+当前 skill 约定为：全程由 LLM 直接生成 Markdown 与 HTML，不依赖本 skill 自带 Python 渲染脚本。
 
 先回答三个问题，再落文案：
 
@@ -63,38 +61,53 @@ metadata:
 - A股与港股都要写“为什么杀跌”与“为什么抗跌”
 - 港股部分要显式体现更敏感、beta 更高、与 A股的差异
 - 新闻块每条都写“解释 + 影响”
+- 必须补“市场微观动态”，至少覆盖：
+  - A股热门股涨跌
+  - 港股热门股涨跌
+  - 领涨板块
+  - 领跌板块
+  - 黄金、白银、油价跟踪
 
-### 4. 需要稳定版式时，优先走渲染脚本
+### 4. 页面风格必须固定，不要每次重设计
 
-从 skill 根目录执行：
+页面风格要求写死，避免每次生成都漂移。
 
-```bash
-python3 scripts/render_strategy_note.py --input /tmp/ah-note.json --output /tmp/ah-note.md
-```
+强制方向：
 
-若需要直接生成券商风格 PDF，可使用 ReportLab 渲染器：
+- 卖方策略页，不是 SaaS dashboard，不是新闻门户
+- 信息密度高，但文字必须可读
+- 以 A4 页面为默认目标，优先 portrait
+- 屏幕显示和打印版芯要一致
+- 颜色稳定，默认采用：
+  - 白纸底
+  - 红色主强调
+  - 深蓝标题栏
+  - 浅蓝摘要框
+- 标题系统要克制：
+  - 主标题只有一个
+  - 一级区块标题使用深蓝底白字
+  - 避免重复英文栏目名
+- 指数区要像行情带：
+  - 单行或紧凑多列
+  - 不要每张卡都堆很多文字
+- A股 / 港股观察必须是双栏核心区：
+  - 今日走势
+  - 热门股
+  - 领涨 / 领跌板块
+  - 一句话判断
+- 微观动态要有标签系统：
+  - `利好`
+  - `利空`
+  - `中性`
+  - `暴涨`
+  - `暴跌`
+  - `抗跌`
+  - `领涨`
+  - `领跌`
+- 大宗商品跟踪单独成块，不要埋在新闻里
+- 不允许使用花哨动效；转 PDF 场景默认无动画
 
-```bash
-python3 scripts/render_strategy_note_reportlab.py \
-  --input-markdown /tmp/ah-note.md \
-  --output-pdf /tmp/ah-note.pdf \
-  --hot-stocks-json /tmp/ah-hot-stocks.json
-```
-
-若上游已经是结构化 JSON，也可直接渲染为 PDF：
-
-```bash
-python3 scripts/render_strategy_note_reportlab.py \
-  --input-json /tmp/ah-note.json \
-  --output-pdf /tmp/ah-note.pdf
-```
-
-脚本会校验：
-
-- 五个指数是否齐全且顺序正确
-- 新闻是否覆盖宏观、政策、盘后变量
-- 明日观察是否正好 3 条
-- A股/港股的强弱方向是否各 2-3 条
+详细版式规范见 [references/page_style_guide.md](references/page_style_guide.md)。
 
 ### 5. 输出纪律
 
@@ -103,43 +116,15 @@ python3 scripts/render_strategy_note_reportlab.py \
 - 每条都写因果
 - 多用“说明 / 意味着 / 反映 / 本质是”
 - 避免“市场波动较大”“情绪偏弱”等空话
+- 热门股不要只列名字和涨跌幅，必须解释资金为什么交易它
+- 板块不要只列行业名，必须写成“板块 + 触发因子 + 市场含义”
+- 黄金、白银、油价不要只写涨跌，必须写它们对 A/H 风险偏好的含义
 
 ## 快速命令
 
-- 生成 Markdown：
-
-```bash
-python3 scripts/render_strategy_note.py --input /tmp/ah-note.json
-```
-
-- 生成并写入文件：
-
-```bash
-python3 scripts/render_strategy_note.py --input /tmp/ah-note.json --output /tmp/ah-note.md
-```
-
-- 由 Markdown 直接生成 PDF：
-
-```bash
-python3 skills/ah-daily-strategy-note/scripts/render_strategy_note_reportlab.py \
-  --input-markdown /tmp/ah-note.md \
-  --output-pdf /tmp/ah-note.pdf \
-  --hot-stocks-json /tmp/ah-hot-stocks.json
-```
-
-- 由 JSON 直接生成 PDF：
-
-```bash
-python3 skills/ah-daily-strategy-note/scripts/render_strategy_note_reportlab.py \
-  --input-json /tmp/ah-note.json \
-  --output-pdf /tmp/ah-note.pdf
-```
-
-- 运行最小验证：
-
-```bash
-python3 skills/ah-daily-strategy-note/tests/test_render_strategy_note.py
-```
+- 先按 schema 组织内容，再直接让 LLM 生成 Markdown。
+- 再基于同一份 Markdown 内容，让 LLM 直接生成 HTML。
+- 若需要 PDF，优先使用浏览器打印，不额外依赖本 skill 脚本。
 
 ## 常见风险
 
@@ -148,8 +133,11 @@ python3 skills/ah-daily-strategy-note/tests/test_render_strategy_note.py
 - 指数点评只复述涨跌，没有结论
 - “明日观察”写成口号，而不是可验证变量
 - 新闻只有解释，没有影响推演
+- 热门股只列涨跌幅，没有解释资金交易逻辑
+- 微观动态只写股票，不写板块与商品，导致盘口层缺失
+- 页面风格漂移，上一期像券商页，这一期像资讯站
 
 ## 参考文件
 
 - `references/report_schema.md`
-- `scripts/render_strategy_note.py`
+- `references/page_style_guide.md`
