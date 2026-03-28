@@ -403,16 +403,13 @@
         grid-column: 1 / -1;
       }
 
-      .analysis-grid .panel .one-line,
-      .analysis-grid .panel .sub-block {
+      .analysis-grid .panel .one-line {
+        grid-column: 1 / -1;
         margin-top: 0;
       }
 
-      .analysis-grid .panel .sub-block {
-        padding-top: 0;
-        padding-left: 6px;
-        border-top: 0;
-        border-left: 3px solid var(--support);
+      .playbook-row .panel-head {
+        margin-bottom: 5px;
       }
 
       .bottom-grid {
@@ -752,13 +749,6 @@
         .analysis-grid .panel {
           grid-template-columns: 1fr;
         }
-
-        .analysis-grid .panel .sub-block {
-          padding-left: 0;
-          border-left: 0;
-          padding-top: 6px;
-          border-top: 1px solid var(--line);
-        }
       }
     </style>
   </head>
@@ -872,23 +862,6 @@
               </div>
             </div>
             <div class="one-line">A股一句话：A股本质是政策托底下的结构性 risk-on 回补，不是增量资金全面回流。</div>
-            <div class="sub-block">
-              <div class="sub-block-title">Playbook</div>
-              <div class="strategy-grid">
-                <div class="strategy-item">
-                  <strong>性质</strong>
-                  <span>今天更像外部风险扰动中的结构性修复，而不是系统性 risk-on 重启。</span>
-                </div>
-                <div class="strategy-item">
-                  <strong>应对</strong>
-                  <span>A股可继续围绕政策托底与资源、医药修复做相对收益。</span>
-                </div>
-                <div class="strategy-item">
-                  <strong>仓位节奏</strong>
-                  <span>港股则应等待油价、贸易 headline 和业绩指引共同确认后，再提高高 beta 仓位。</span>
-                </div>
-              </div>
-            </div>
           </section>
 
           <section class="panel">
@@ -919,6 +892,29 @@
             </div>
             <div class="one-line">港股一句话：港股本质是外部扰动未消下的低质量修复，高 beta 仍被打折。</div>
           </section>
+        </section>
+
+        <section class="playbook-row panel">
+          <div class="panel-head">
+            <div>
+              <div class="caps">Playbook</div>
+              <h2>策略</h2>
+            </div>
+          </div>
+          <div class="strategy-grid">
+            <div class="strategy-item">
+              <strong>性质</strong>
+              <span>今天更像外部风险扰动中的结构性修复，而不是系统性 risk-on 重启。</span>
+            </div>
+            <div class="strategy-item">
+              <strong>应对</strong>
+              <span>A股可继续围绕政策托底与资源、医药修复做相对收益。</span>
+            </div>
+            <div class="strategy-item">
+              <strong>仓位节奏</strong>
+              <span>港股则应等待油价、贸易 headline 和业绩指引共同确认后，再提高高 beta 仓位。</span>
+            </div>
+          </div>
         </section>
 
         <section class="bottom-grid">
