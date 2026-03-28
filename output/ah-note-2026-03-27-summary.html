@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A股 &amp; 港股 日度策略简报 | 2026-03-27</title>
+    <meta
+      name="description"
+      content="2026年3月27日A股与港股日度策略简报，两栏式打印版页面，聚焦指数修复质量、A/H差异、盘后驱动与次日观察。"
+    />
+    <style>
+      :root {
+        --paper: #f5f1ea;
+        --sheet: #fffdf8;
+        --ink: #17304a;
+        --muted: #5c6f82;
+        --line: #d5cec2;
+        --line-strong: #b7ad9e;
+        --accent: #b3422d;
+        --accent-soft: #f5e3dc;
+        --support: #8c6a2f;
+        --support-soft: #efe6d3;
+        --positive: #315f53;
+        --positive-soft: #dce8e3;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 9mm;
+      }
+
+      html {
+        color: var(--ink);
+        background: var(--paper);
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(180deg, #ece5da 0%, #f4efe7 100%);
+        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      .page {
+        width: 297mm;
+        min-height: 210mm;
+        margin: 0 auto;
+        padding: 10mm 11mm 8mm;
+        background: var(--sheet);
+        box-shadow: 0 24px 60px rgba(23, 48, 74, 0.12);
+      }
+
+      .caps {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .top-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 0.95fr;
+        border: 1px solid var(--line);
+        background: #f1ede6;
+      }
+
+      .top-strip div {
+        padding: 8px 10px;
+        border-right: 1px solid var(--line);
+      }
+
+      .top-strip div:last-child {
+        border-right: 0;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+        gap: 14px;
+        margin-top: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-copy {
+        padding-right: 4px;
+      }
+
+      .kicker {
+        margin: 0 0 8px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--support);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Songti SC", "STSong", "Source Han Serif SC", serif;
+        text-wrap: balance;
+      }
+
+      h1 {
+        font-size: 26px;
+        line-height: 1.16;
+      }
+
+      .subtitle {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .source-line {
+        margin-top: 7px;
+        font-size: 10.6px;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+
+      .hero-note {
+        padding: 12px 13px 11px;
+        border: 1px solid var(--line);
+        background: #f8f4ed;
+      }
+
+      .hero-note .label {
+        margin-bottom: 8px;
+        color: var(--accent);
+      }
+
+      .hero-note p {
+        margin: 0;
+        font-size: 11.5px;
+        line-height: 1.62;
+        text-wrap: pretty;
+      }
+
+      .hero-note p + p {
+        margin-top: 8px;
+      }
+
+      .summary-line {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+        font-size: 10.9px;
+        line-height: 1.58;
+        color: var(--muted);
+      }
+
+      .layout {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .market-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .analysis-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .bottom-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
+        gap: 10px;
+      }
+
+      .market-card {
+        padding: 8px 9px 7px;
+        border: 1px solid var(--line);
+        background: #f8f4ed;
+      }
+
+      .market-card .caps {
+        color: var(--muted);
+      }
+
+      .market-name {
+        margin-top: 4px;
+        font-size: 15px;
+        font-family: "Songti SC", "STSong", "Source Han Serif SC", serif;
+        font-weight: 700;
+      }
+
+      .market-level {
+        margin-top: 6px;
+        font-size: 16px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .market-change {
+        margin-top: 2px;
+        font-size: 10.8px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .market-note {
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid #e7dece;
+        font-size: 10px;
+        line-height: 1.42;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+
+      .panel {
+        padding: 11px 12px 10px;
+        border: 1px solid var(--line);
+        break-inside: avoid;
+      }
+
+      .panel h2 {
+        font-size: 18px;
+        line-height: 1.2;
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .panel-head .caps {
+        color: var(--muted);
+      }
+
+      .change-up {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .lead {
+        margin: 0 0 8px;
+        font-size: 11.3px;
+        line-height: 1.58;
+        text-wrap: pretty;
+      }
+
+      .fact-grid {
+        display: grid;
+        gap: 7px;
+      }
+
+      .fact {
+        padding-top: 7px;
+        border-top: 1px solid #e8e1d5;
+      }
+
+      .fact:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .fact h3 {
+        font-size: 10.2px;
+        line-height: 1.3;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .fact ul {
+        margin: 5px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .fact li {
+        position: relative;
+        padding-left: 11px;
+        margin-top: 4px;
+        font-size: 10.8px;
+        line-height: 1.54;
+        text-wrap: pretty;
+      }
+
+      .fact li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.72em;
+        width: 5px;
+        height: 1px;
+        background: var(--support);
+      }
+
+      .one-line {
+        margin-top: 8px;
+        padding: 8px 9px;
+        background: #f6f2eb;
+        border-left: 3px solid var(--accent);
+        font-size: 10.9px;
+        line-height: 1.52;
+        font-weight: 700;
+        text-wrap: pretty;
+      }
+
+      .sub-block {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #e8e1d5;
+      }
+
+      .sub-block-title {
+        margin: 0 0 6px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .driver-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 7px;
+      }
+
+      .driver {
+        padding: 8px 9px 8px;
+        background: #faf6ef;
+        border: 1px solid #e9e1d4;
+      }
+
+      .driver-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .tag-neutral {
+        color: var(--support);
+        background: var(--support-soft);
+      }
+
+      .tag-positive {
+        color: var(--positive);
+        background: var(--positive-soft);
+      }
+
+      .tag-after {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .driver h3 {
+        font-size: 11.2px;
+        line-height: 1.35;
+      }
+
+      .driver p {
+        margin: 4px 0 0;
+        font-size: 10.5px;
+        line-height: 1.48;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+
+      .strategy-grid {
+        display: grid;
+        gap: 6px;
+      }
+
+      .strategy-item {
+        padding: 7px 9px;
+        background: #f6f2ea;
+        border-left: 3px solid var(--support);
+      }
+
+      .strategy-item strong {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 9.4px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .strategy-item span {
+        font-size: 10.5px;
+        line-height: 1.46;
+        text-wrap: pretty;
+      }
+
+      .watch-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .watch-list li {
+        padding: 5px 0;
+        border-top: 1px solid #e8e1d5;
+        font-size: 10.7px;
+        line-height: 1.48;
+        text-wrap: pretty;
+      }
+
+      .watch-list li:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .source-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-content: start;
+      }
+
+      .source-tags span {
+        padding: 3px 7px;
+        border: 1px solid var(--line);
+        font-size: 9.2px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: #f7f3ec;
+      }
+
+      @media print {
+        html,
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          width: auto;
+          min-height: auto;
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          width: auto;
+          min-height: auto;
+          margin: 0;
+          padding: 20px;
+        }
+
+        .hero,
+        .layout,
+        .top-strip,
+        .analysis-grid,
+        .bottom-grid,
+        .market-strip,
+        .driver-list {
+          grid-template-columns: 1fr;
+        }
+
+        .source-tags {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <section class="top-strip caps" aria-label="report labels">
+        <div>Daily Strategy Note</div>
+        <div>A/H Equities</div>
+        <div>Macro risk-on</div>
+      </section>
+
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="kicker">Desk Briefing | Sell-side Layout</p>
+          <h1>A股 &amp; 港股 日度策略简报</h1>
+          <div class="subtitle">2026-03-27 | 收盘复盘 + 盘后线索</div>
+          <div class="source-line">数据来源：Eastmoney / AP / Gov.cn / HKEX</div>
+          <div class="summary-line">
+            交易主线不是“指数是否继续上行”，而是“外部风险溢价能否继续回落”，并让港股高 beta 真正接棒。
+          </div>
+        </div>
+
+        <aside class="hero-note">
+          <div class="label caps">Core View</div>
+          <p>
+            2026年3月27日A/H同步反弹，但修复质量并不对称。A股由资源与医药带动，说明内资在政策托底预期下先做高弹性回补；港股仅温和跟涨且恒生科技冲高回落，反映外部油价、地缘与中美贸易 headline 仍在压制离岸估值。
+          </p>
+          <p>
+            结论上，今天更接近结构性 risk-on 回补，而不是系统性风险偏好重启。
+          </p>
+        </aside>
+      </header>
+
+      <main class="layout">
+        <section class="market-strip" aria-label="index snapshot">
+          <article class="market-card">
+            <div class="caps">Index Snapshot</div>
+            <div class="market-name">上证</div>
+            <div class="market-level">3,913.72</div>
+            <div class="market-change change-up">+0.63%</div>
+            <div class="market-note">权重与顺周期回暖，政策底与资源价格弹性共同托底，但修复仍偏内部资金驱动。</div>
+          </article>
+          <article class="market-card">
+            <div class="caps">Index Snapshot</div>
+            <div class="market-name">深证</div>
+            <div class="market-level">13,760.37</div>
+            <div class="market-change change-up">+1.13%</div>
+            <div class="market-note">深市明显强于沪指，风险偏好先回到高弹性制造与医药链条。</div>
+          </article>
+          <article class="market-card">
+            <div class="caps">Index Snapshot</div>
+            <div class="market-name">创业板</div>
+            <div class="market-level">3,295.88</div>
+            <div class="market-change change-up">+0.71%</div>
+            <div class="market-note">成长反弹但未全面领跑，说明资金敢回补，但追价仍然克制。</div>
+          </article>
+          <article class="market-card">
+            <div class="caps">Index Snapshot</div>
+            <div class="market-name">恒生</div>
+            <div class="market-level">24,951.88</div>
+            <div class="market-change change-up">+0.38%</div>
+            <div class="market-note">港股仅小幅跟涨，外部风险溢价尚未真正撤退。</div>
+          </article>
+          <article class="market-card">
+            <div class="caps">Index Snapshot</div>
+            <div class="market-name">恒生科技</div>
+            <div class="market-level">4,778.01</div>
+            <div class="market-change change-up">+0.35%</div>
+            <div class="market-note">科技冲高回落且跑输A股成长，海外资金仍在压估值、追价不足。</div>
+          </article>
+        </section>
+
+        <section class="analysis-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="caps">A-Share Lens</div>
+                <h2>左栏 | A股观察</h2>
+              </div>
+            </div>
+            <p class="lead">
+              A股普涨且深市领先，说明内资在政策托底预期下先做高弹性回补，而不是单纯回到红利避险。
+            </p>
+            <div class="fact-grid">
+              <div class="fact">
+                <h3>Lagging</h3>
+                <ul>
+                  <li>风电与光伏链条明显落后，外部能源价格冲击仍在压制制造端盈利预期。</li>
+                  <li>银行保险等低波红利走弱，反映资金从纯防御仓位切向景气修复交易。</li>
+                </ul>
+              </div>
+              <div class="fact">
+                <h3>Resilient</h3>
+                <ul>
+                  <li>锂与能源金属大幅领涨，说明资金先交易资源价格与顺周期弹性。</li>
+                  <li>CRO与化学制药同步走强，反映市场开始回补低位高景气资产。</li>
+                </ul>
+              </div>
+            </div>
+            <div class="one-line">A股一句话：A股本质是政策托底下的结构性 risk-on 回补，不是增量资金全面回流。</div>
+            <div class="sub-block">
+              <div class="sub-block-title">Playbook</div>
+              <div class="strategy-grid">
+                <div class="strategy-item">
+                  <strong>性质</strong>
+                  <span>今天更像外部风险扰动中的结构性修复，而不是系统性 risk-on 重启。</span>
+                </div>
+                <div class="strategy-item">
+                  <strong>应对</strong>
+                  <span>A股可继续围绕政策托底与资源、医药修复做相对收益。</span>
+                </div>
+                <div class="strategy-item">
+                  <strong>仓位节奏</strong>
+                  <span>港股则应等待油价、贸易 headline 和业绩指引共同确认后，再提高高 beta 仓位。</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="caps">Hong Kong Lens</div>
+                <h2>右栏 | 港股观察</h2>
+              </div>
+            </div>
+            <p class="lead">
+              港股跟涨但明显弱于A股，说明外部利率、油价和中美摩擦 headline 仍在压制离岸风险偏好。
+            </p>
+            <div class="fact-grid">
+              <div class="fact">
+                <h3>Lagging</h3>
+                <ul>
+                  <li>平台互联网与搜索广告链偏弱，中美贸易调查升级先打离岸科技估值。</li>
+                  <li>造车新势力与高估值成长冲高回落，港股高 beta 对外部风险溢价更敏感。</li>
+                </ul>
+              </div>
+              <div class="fact">
+                <h3>Resilient</h3>
+                <ul>
+                  <li>医药与消费服务修复更快，资金更愿意回补业绩确定性，而不是直接追互联网 beta。</li>
+                  <li>锂业链在港股同步走强，反映A股资源弹性向港股映射，但力度仍弱于内地。</li>
+                </ul>
+              </div>
+            </div>
+            <div class="one-line">港股一句话：港股本质是外部扰动未消下的低质量修复，高 beta 仍被打折。</div>
+          </section>
+        </section>
+
+        <section class="bottom-grid">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="caps">Drivers</div>
+                <h2>头条新闻与核心驱动</h2>
+              </div>
+            </div>
+            <div class="driver-list">
+              <article class="driver">
+                <div class="driver-top">
+                  <span class="tag tag-neutral">Neutral</span>
+                  <h3>特朗普延后对伊朗能源设施行动，霍尔木兹风险暂缓但未解除</h3>
+                </div>
+                <p>AP称白宫在市场剧烈波动后延后动作，说明最坏情形短线降温，但全球油价与航运风险并未真正出清。</p>
+                <p>这意味着A/H可以先做修复，但港股和高 beta 板块仍会持续被外部风险溢价压制。</p>
+              </article>
+              <article class="driver">
+                <div class="driver-top">
+                  <span class="tag tag-positive">Positive</span>
+                  <h3>中国明确2026年继续实施更加积极的财政政策</h3>
+                </div>
+                <p>政府工作报告提出更积极财政安排、赤字率约4%，说明稳增长与内需托底仍是全年主线。</p>
+                <p>这意味着A股更容易先交易政策确定性，资源、制造与内需修复弹性高于离岸市场。</p>
+              </article>
+              <article class="driver">
+                <div class="driver-top">
+                  <span class="tag tag-after">After Market</span>
+                  <h3>港股年报披露继续密集，3月27日至3月30日多家公司集中放榜</h3>
+                </div>
+                <p>HKEX披露日程显示 ICBC、PetroChina、Meitu、Times Electric 于3月27日披露，3月30日仍有 Shenzhou Intl、Sunny Optical 等继续放榜。</p>
+                <p>这意味着下一个交易日港股将更多交易业绩与指引分化，而不是单纯跟随指数 beta。</p>
+              </article>
+            </div>
+          </section>
+
+          <aside class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="caps">Tomorrow Watch</div>
+                <h2>明日观察</h2>
+              </div>
+            </div>
+            <ul class="watch-list">
+              <li>油价与霍尔木兹通航预期是否继续缓和。</li>
+              <li>中美贸易调查 headline 是否升级为更明确的关税或限制措施。</li>
+              <li>港股业绩季指引能否带动互联网与高 beta 重新获得溢价。</li>
+            </ul>
+            <div class="sub-block">
+              <div class="sub-block-title">Data Scope</div>
+              <p class="lead">
+                指数点位采用东财公开历史行情截至2026-03-27收盘口径；板块与个股强弱结合当日公开市场数据、AP公开报道、国务院英文网政策稿与HKEX披露日程整理。
+              </p>
+              <div class="source-tags" aria-label="sources">
+                <span>Eastmoney</span>
+                <span>AP</span>
+                <span>Gov.cn</span>
+                <span>HKEX</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </article>
+  </body>
+</html>
