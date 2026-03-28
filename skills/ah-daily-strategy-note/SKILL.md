@@ -72,6 +72,15 @@ metadata:
 python3 scripts/render_strategy_note.py --input /tmp/ah-note.json --output /tmp/ah-note.md
 ```
 
+若需要直接生成券商风格 PDF，可使用 ReportLab 渲染器：
+
+```bash
+python3 scripts/render_strategy_note_reportlab.py \
+  --input-markdown /tmp/ah-note.md \
+  --output-pdf /tmp/ah-note.pdf \
+  --hot-stocks-json /tmp/ah-hot-stocks.json
+```
+
 脚本会校验：
 
 - 五个指数是否齐全且顺序正确
@@ -99,6 +108,15 @@ python3 scripts/render_strategy_note.py --input /tmp/ah-note.json
 
 ```bash
 python3 scripts/render_strategy_note.py --input /tmp/ah-note.json --output /tmp/ah-note.md
+```
+
+- 由 Markdown 直接生成 PDF：
+
+```bash
+python3 skills/ah-daily-strategy-note/scripts/render_strategy_note_reportlab.py \
+  --input-markdown /tmp/ah-note.md \
+  --output-pdf /tmp/ah-note.pdf \
+  --hot-stocks-json /tmp/ah-hot-stocks.json
 ```
 
 - 运行最小验证：
