@@ -81,6 +81,14 @@ python3 scripts/render_strategy_note_reportlab.py \
   --hot-stocks-json /tmp/ah-hot-stocks.json
 ```
 
+若上游已经是结构化 JSON，也可直接渲染为 PDF：
+
+```bash
+python3 scripts/render_strategy_note_reportlab.py \
+  --input-json /tmp/ah-note.json \
+  --output-pdf /tmp/ah-note.pdf
+```
+
 脚本会校验：
 
 - 五个指数是否齐全且顺序正确
@@ -117,6 +125,14 @@ python3 skills/ah-daily-strategy-note/scripts/render_strategy_note_reportlab.py 
   --input-markdown /tmp/ah-note.md \
   --output-pdf /tmp/ah-note.pdf \
   --hot-stocks-json /tmp/ah-hot-stocks.json
+```
+
+- 由 JSON 直接生成 PDF：
+
+```bash
+python3 skills/ah-daily-strategy-note/scripts/render_strategy_note_reportlab.py \
+  --input-json /tmp/ah-note.json \
+  --output-pdf /tmp/ah-note.pdf
 ```
 
 - 运行最小验证：

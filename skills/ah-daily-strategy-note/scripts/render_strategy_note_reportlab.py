@@ -40,7 +40,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Render an A/H daily strategy note Markdown file to PDF with ReportLab."
     )
-    parser.add_argument("--input-markdown", required=True, help="Source Markdown path.")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--input-markdown", help="Source Markdown path.")
+    group.add_argument("--input-json", help="Source JSON path.")
     parser.add_argument("--output-pdf", required=True, help="Output PDF path.")
     parser.add_argument(
         "--hot-stocks-json",
@@ -190,6 +192,36 @@ def parse_markdown(text: str) -> dict[str, object]:
         "data_note": data_note,
         "footer_sources": footer_sources,
     }
+
+
+def parse_json_payload(payload: dict[str, object]) -> tuple[dict[str, object], list[dict[str, str]]]:
+    sources = payload.get("sources") or []
+    if not isinstance(sources, list):
+        raise ValueError("sources must be a list")
+
+    date_text = str(payload.get("date", "")).strip()
+    coverage = str(payload.get("coverage", "")).strip()
+    meta = " | ".join(part for part in (date_text, coverage) if part)
+
+    note = {
+        "risk_mode": str(payload.get("risk_mode", "")).strip(),
+        "title": str(payload.get("title", "A股 & 港股 日度策略简报")).strip(),
+        "meta": meta,
+        "sources": [str(item).strip() for item in sources],
+        "key_takeaway": str(payload.get("key_takeaway", "")).strip(),
+        "indexes": payload.get("indexes") or [],
+        "a_share": payload.get("a_share") or {},
+        "h_share": payload.get("h_share") or {},
+        "news": payload.get("news") or [],
+        "strategy": payload.get("strategy") or {},
+        "tomorrow_watch": payload.get("tomorrow_watch") or [],
+        "data_note": str(payload.get("data_note", "")).strip(),
+        "footer_sources": " / ".join(str(item).strip() for item in sources),
+    }
+    hot_stocks = payload.get("hot_stocks") or []
+    if not isinstance(hot_stocks, list):
+        raise ValueError("hot_stocks must be a list when provided")
+    return note, hot_stocks
 
 
 def register_fonts() -> tuple[str, str, str]:
@@ -810,9 +842,37 @@ def render_pdf(input_markdown: str, output_pdf: str, hot_stocks_json: str | None
     doc.build(story)
 
 
+def render_pdf_from_json(input_json: str, output_pdf: str, hot_stocks_json: str | None) -> None:
+    payload = json.loads(read_text(input_json))
+    if not isinstance(payload, dict):
+        raise ValueError("input JSON must be an object")
+
+    note, json_hot_stocks = parse_json_payload(payload)
+    hot_stocks = json_hot_stocks or load_hot_stocks(hot_stocks_json)
+    styles = build_styles()
+
+    output_path = Path(output_pdf)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    doc = SimpleDocTemplate(
+        str(output_path),
+        pagesize=A4,
+        leftMargin=20 * mm,
+        rightMargin=20 * mm,
+        topMargin=18 * mm,
+        bottomMargin=18 * mm,
+        title=str(note["title"]),
+        author="Codex",
+    )
+    story = build_story(note, hot_stocks, styles, doc.width)
+    doc.build(story)
+
+
 def main() -> int:
     args = parse_args()
-    render_pdf(args.input_markdown, args.output_pdf, args.hot_stocks_json)
+    if args.input_markdown:
+        render_pdf(args.input_markdown, args.output_pdf, args.hot_stocks_json)
+    else:
+        render_pdf_from_json(args.input_json, args.output_pdf, args.hot_stocks_json)
     return 0
 
 
