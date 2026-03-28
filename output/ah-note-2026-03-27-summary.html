@@ -221,12 +221,12 @@
 
       .page {
         width: 297mm;
-        height: 210mm;
+        min-height: 210mm;
         margin: 0 auto;
         padding: 8.5mm 9.5mm 7.5mm;
         background: var(--sheet);
         box-shadow: var(--page-shadow);
-        overflow: hidden;
+        overflow: visible;
       }
 
       .caps {
@@ -715,6 +715,7 @@
           width: 297mm;
           height: 210mm;
           margin: 0;
+          overflow: hidden;
           box-shadow: none;
         }
       }
