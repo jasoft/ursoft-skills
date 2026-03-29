@@ -126,6 +126,7 @@
 
 - `risk_mode` 只写 `Macro risk-off` 或 `Macro risk-on`
 - `sources` 至少 2 个
+- `sources` 优先从 `references/data_sources.md` 的白名单中选择，并尽量同时覆盖行情源与新闻源
 - `indexes` 必须正好 5 个，顺序固定为：
   - 上证
   - 深证

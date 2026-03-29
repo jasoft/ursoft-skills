@@ -37,6 +37,7 @@ metadata:
 - 必须覆盖上证、深证、创业板、恒生、恒生科技五个指数
 - 必须覆盖宏观、政策、盘后变量三类驱动
 - 每一条都要带因果，不要只复述涨跌或新闻标题
+- 选源前先看 [references/data_sources.md](references/data_sources.md)，按“官方披露 / 交易所 / 终端数据 > 专业媒体 > 观点平台”的优先级取材
 
 ## 标准工作流
 
@@ -54,6 +55,7 @@ metadata:
 ### 3. 先整理成结构化输入
 
 优先按 [references/report_schema.md](references/report_schema.md) 组织字段，再生成最终 Markdown。
+涉及新闻、宏观、政策、盘后变量时，再补读 [references/data_sources.md](references/data_sources.md) 里的来源分层与使用边界。
 
 最低要求：
 
@@ -141,3 +143,4 @@ metadata:
 
 - `references/report_schema.md`
 - `references/page_style_guide.md`
+- `references/data_sources.md`
