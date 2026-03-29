@@ -45,6 +45,8 @@ metadata:
 
 - 默认按用户指定交易日输出“收盘复盘 + 盘后线索”
 - 若用户混淆“今天 / 明天 / 盘后”，在正文直接写绝对日期
+- 若当前自然日不是交易日，`最新` 默认指最新完整交易日，而不是自然日
+- 若用户要求“最新”，正文与页脚都直接写绝对日期，避免周末和节假日口径漂移
 
 ### 2. 先做信息分层，不要直接成文
 
@@ -70,7 +72,14 @@ metadata:
   - 领跌板块
   - 黄金、白银、油价跟踪
 
-### 4. 页面风格必须固定，不要每次重设计
+### 4. 先出 Markdown，再出 HTML，再出 PDF
+
+- 先生成最终 Markdown 成稿，再基于同一份内容生成 HTML
+- 涉及排版与导出时，再读 [references/render_workflow.md](references/render_workflow.md)
+- HTML 默认是“正常阅读版”，不是固定 A4 壳子
+- PDF 默认是“按 A4 宽度自适应后的多页打印版”
+- 只有用户明确要求“单长页 / 不分页”时，才切换成长页导出模式
+### 5. 页面风格必须固定，不要每次重设计
 
 页面风格要求写死，避免每次生成都漂移。
 
@@ -116,7 +125,7 @@ metadata:
 
 详细版式规范见 [references/page_style_guide.md](references/page_style_guide.md)。
 
-### 5. 输出纪律
+### 6. 输出纪律
 
 - 短句优先
 - 结论前置
@@ -131,7 +140,8 @@ metadata:
 
 - 先按 schema 组织内容，再直接让 LLM 生成 Markdown。
 - 再基于同一份 Markdown 内容，让 LLM 直接生成 HTML。
-- 若需要 PDF，优先使用浏览器打印，不额外依赖本 skill 脚本。
+- 若需要 PDF，优先使用浏览器打印或 Playwright/Chromium 导出，不要用 `reportlab` 重新排版 HTML。
+- 默认先保证 HTML 屏幕预览正确，再切到打印样式导出 PDF。
 
 ## 常见风险
 
@@ -143,9 +153,13 @@ metadata:
 - 热门股只列涨跌幅，没有解释资金交易逻辑
 - 微观动态只写股票，不写板块与商品，导致盘口层缺失
 - 页面风格漂移，上一期像券商页，这一期像资讯站
+- 屏幕版直接硬套固定 A4 高度，导致长页导出出现大块空白
+- 打印时误触发移动端断点，导致所有卡片在 PDF 里单列堆叠
+- HTML 与 PDF 分别维护两套内容，导致显示不一致
 
 ## 参考文件
 
 - `references/report_schema.md`
 - `references/page_style_guide.md`
 - `references/data_sources.md`
+- `references/render_workflow.md`
