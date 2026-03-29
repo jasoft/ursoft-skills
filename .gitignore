@@ -21,3 +21,7 @@ skills/**/scripts/fixtures/__pycache__/
 # Editor / OS
 .idea/
 .vscode/
+tmp/
+output/
+artifacts/
+skills/.skills_store_lock.json
