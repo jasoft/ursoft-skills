@@ -31,7 +31,7 @@
 
       @page {
         size: A4 portrait;
-        margin: 0;
+        margin: 12mm;
       }
 
       html {
@@ -44,6 +44,7 @@
         background: linear-gradient(180deg, #edf1f4 0%, #f7f9fb 100%);
         color: var(--ink);
         font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 16px;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
@@ -65,16 +66,15 @@
       }
 
       .screen {
-        padding: 14px;
+        padding: 24px;
       }
 
       .page {
-        width: 210mm;
-        min-height: 297mm;
-        margin: 0 auto;
+        width: min(1180px, 100%);
+        margin: 0 auto 32px;
         background: var(--sheet);
         box-shadow: var(--shadow);
-        padding: 7mm 7.5mm 6mm;
+        padding: 28px 32px 32px;
       }
 
       .topbar {
@@ -83,14 +83,14 @@
         border-top: 3px solid var(--red);
         border-bottom: 1px solid var(--line);
         background: #fbfcfd;
-        font-size: 10px;
+        font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
       .topbar div {
-        padding: 6px 8px;
+        padding: 8px 10px;
       }
 
       .topbar div:last-child {
@@ -101,114 +101,116 @@
       .hero {
         display: grid;
         grid-template-columns: 1.15fr 0.85fr;
-        gap: 8px;
-        margin-top: 7px;
-        padding-bottom: 6px;
+        gap: 14px;
+        margin-top: 14px;
+        padding-bottom: 14px;
         border-bottom: 1px solid var(--line);
       }
 
       h1 {
-        font-size: 29px;
+        font-size: 38px;
         line-height: 1.06;
       }
 
       .hero-meta {
-        margin-top: 5px;
+        margin-top: 10px;
         color: var(--muted);
-        font-size: 11px;
-        line-height: 1.45;
+        font-size: 15px;
+        line-height: 1.6;
       }
 
       .hero-box {
         border-left: 4px solid var(--red);
         background: var(--navy-soft);
-        padding: 9px 10px;
+        padding: 14px 16px;
       }
 
       .hero-box h2 {
-        font-size: 13px;
+        font-size: 18px;
         color: var(--navy);
-        margin-bottom: 5px;
+        margin-bottom: 8px;
       }
 
       .hero-box p {
-        font-size: 12px;
-        line-height: 1.52;
+        font-size: 16px;
+        line-height: 1.68;
       }
 
       .section-title {
-        margin-top: 7px;
-        padding: 4px 8px;
+        margin-top: 16px;
+        padding: 7px 10px;
         background: var(--navy);
         color: #fff;
-        font-size: 12px;
+        font-size: 16px;
         letter-spacing: 0.04em;
       }
 
       .index-strip {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 6px;
-        margin-top: 6px;
+        gap: 10px;
+        margin-top: 10px;
       }
 
       .index-card {
         border: 1px solid var(--line);
         background: #fcfcfd;
-        padding: 7px 7px 6px;
+        padding: 12px;
+        break-inside: avoid;
       }
 
       .index-card .name {
-        font-size: 10px;
+        font-size: 13px;
         font-weight: 700;
         color: var(--muted);
       }
 
       .index-card .level {
-        margin-top: 4px;
-        font-size: 18px;
+        margin-top: 6px;
+        font-size: 26px;
         font-weight: 700;
         line-height: 1;
       }
 
       .index-card .change {
-        margin-top: 3px;
-        font-size: 11px;
+        margin-top: 5px;
+        font-size: 15px;
         color: var(--red);
         font-weight: 700;
       }
 
       .index-card .view {
-        margin-top: 5px;
-        font-size: 10.2px;
-        line-height: 1.42;
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.56;
         color: var(--muted);
       }
 
       .columns {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 12px;
+        margin-top: 10px;
       }
 
       .panel {
         border: 1px solid var(--line);
         background: #fff;
-        padding: 8px;
+        padding: 14px;
+        break-inside: avoid;
       }
 
       .panel h3 {
-        font-size: 16px;
+        font-size: 22px;
         color: var(--navy);
-        margin-bottom: 5px;
+        margin-bottom: 8px;
       }
 
       .subhead {
-        margin-top: 6px;
-        padding-left: 7px;
+        margin-top: 10px;
+        padding-left: 9px;
         border-left: 3px solid var(--red);
-        font-size: 11px;
+        font-size: 15px;
         font-weight: 700;
       }
 
@@ -218,8 +220,8 @@
       .news li,
       .watch li,
       .strategy li {
-        font-size: 11px;
-        line-height: 1.48;
+        font-size: 15px;
+        line-height: 1.72;
       }
 
       .panel ul,
@@ -228,7 +230,7 @@
       .watch ul,
       .strategy ul {
         list-style: none;
-        margin-top: 4px;
+        margin-top: 8px;
       }
 
       .panel li,
@@ -236,12 +238,12 @@
       .news li,
       .watch li,
       .strategy li {
-        margin-top: 4px;
+        margin-top: 8px;
       }
 
       .one-line {
-        margin-top: 6px;
-        padding: 7px 8px;
+        margin-top: 12px;
+        padding: 10px 12px;
         background: var(--gray-soft);
         border: 1px solid var(--line);
         font-weight: 700;
@@ -250,30 +252,31 @@
       .micro-grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 12px;
+        margin-top: 10px;
       }
 
       .micro {
         border: 1px solid var(--line);
         background: var(--gray-soft);
-        padding: 8px;
+        padding: 14px;
+        break-inside: avoid;
       }
 
       .micro h4,
       .news h4 {
-        font-size: 11.5px;
+        font-size: 15px;
         color: var(--navy);
-        margin-bottom: 4px;
+        margin-bottom: 8px;
       }
 
       .tag {
         display: inline-block;
-        min-width: 38px;
-        padding: 1px 6px;
-        margin-right: 4px;
+        min-width: 48px;
+        padding: 3px 8px;
+        margin-right: 6px;
         border-radius: 999px;
-        font-size: 9px;
+        font-size: 12px;
         font-weight: 700;
         text-align: center;
       }
@@ -296,15 +299,16 @@
       .bottom {
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 12px;
+        margin-top: 10px;
       }
 
       .news,
       .strategy,
       .watch {
         border: 1px solid var(--line);
-        padding: 8px;
+        padding: 14px;
+        break-inside: avoid;
       }
 
       .news {
@@ -317,22 +321,64 @@
       }
 
       .footer {
-        margin-top: 7px;
-        padding-top: 6px;
+        margin-top: 16px;
+        padding-top: 12px;
         border-top: 1px solid var(--line);
         color: var(--muted);
-        font-size: 10px;
-        line-height: 1.45;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .columns,
+        .micro-grid,
+        .bottom,
+        .topbar,
+        .index-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .screen {
+          padding: 12px;
+        }
+
+        .page {
+          padding: 18px 16px 24px;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
       }
 
       @media print {
+        html,
+        body {
+          background: #fff;
+        }
+
         .screen {
           padding: 0;
         }
 
         .page {
           margin: 0;
+          width: auto;
           box-shadow: none;
+          padding: 0;
+        }
+
+        .topbar,
+        .hero,
+        .index-card,
+        .panel,
+        .micro,
+        .news,
+        .strategy,
+        .watch,
+        .footer {
+          break-inside: avoid;
         }
       }
     </style>
