@@ -329,7 +329,7 @@
         line-height: 1.7;
       }
 
-      @media (max-width: 980px) {
+      @media screen and (max-width: 980px) {
         .hero,
         .columns,
         .micro-grid,
@@ -358,6 +358,10 @@
           background: #fff;
         }
 
+        body {
+          font-size: 12px;
+        }
+
         .screen {
           padding: 0;
         }
@@ -367,6 +371,166 @@
           width: auto;
           box-shadow: none;
           padding: 0;
+        }
+
+        .topbar {
+          font-size: 10px;
+        }
+
+        .hero {
+          grid-template-columns: 1.1fr 0.9fr;
+          gap: 8px;
+          margin-top: 8px;
+          padding-bottom: 10px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .hero-meta {
+          font-size: 11px;
+          line-height: 1.5;
+        }
+
+        .hero-box {
+          padding: 10px 12px;
+        }
+
+        .hero-box h2 {
+          font-size: 14px;
+        }
+
+        .hero-box p {
+          font-size: 11.5px;
+          line-height: 1.56;
+        }
+
+        .section-title {
+          margin-top: 10px;
+          padding: 5px 8px;
+          font-size: 13px;
+        }
+
+        .index-strip {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 6px;
+          margin-top: 6px;
+        }
+
+        .index-card {
+          padding: 8px;
+        }
+
+        .index-card .name {
+          font-size: 11px;
+        }
+
+        .index-card .level {
+          font-size: 20px;
+        }
+
+        .index-card .change {
+          font-size: 12px;
+        }
+
+        .index-card .view {
+          font-size: 10.5px;
+          line-height: 1.42;
+        }
+
+        .columns {
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          margin-top: 6px;
+        }
+
+        .panel {
+          padding: 10px;
+        }
+
+        .panel h3 {
+          font-size: 17px;
+        }
+
+        .subhead {
+          margin-top: 7px;
+          padding-left: 7px;
+          font-size: 11px;
+        }
+
+        .panel p,
+        .panel li,
+        .micro li,
+        .news li,
+        .watch li,
+        .strategy li {
+          font-size: 11px;
+          line-height: 1.5;
+        }
+
+        .panel ul,
+        .micro ul,
+        .news ul,
+        .watch ul,
+        .strategy ul {
+          margin-top: 5px;
+        }
+
+        .panel li,
+        .micro li,
+        .news li,
+        .watch li,
+        .strategy li {
+          margin-top: 5px;
+        }
+
+        .one-line {
+          margin-top: 8px;
+          padding: 8px;
+          font-size: 11px;
+        }
+
+        .micro-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          margin-top: 6px;
+        }
+
+        .micro {
+          padding: 10px;
+        }
+
+        .micro h4,
+        .news h4 {
+          font-size: 11.5px;
+          margin-bottom: 5px;
+        }
+
+        .tag {
+          min-width: 40px;
+          padding: 2px 6px;
+          margin-right: 4px;
+          font-size: 9px;
+        }
+
+        .bottom {
+          grid-template-columns: 1.1fr 0.9fr;
+          gap: 8px;
+          margin-top: 6px;
+        }
+
+        .news,
+        .strategy,
+        .watch {
+          padding: 10px;
+        }
+
+        .footer {
+          margin-top: 10px;
+          padding-top: 8px;
+          font-size: 10px;
+          line-height: 1.45;
         }
 
         .topbar,
