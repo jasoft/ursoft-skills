@@ -8,9 +8,9 @@ import requests
 
 def resolve_config(args):
     return {
-        "url": args.url or os.environ.get("NOCODB_URL", "http://localhost:8020"),
-        "token": args.token or os.environ.get("NOCODB_API_TOKEN", ""),
-        "table_id": args.table_id or os.environ.get("NOCODB_TABLE_ID", ""),
+        "url": args.url or os.environ.get("REMEMBER_NOCODB_URL", "http://localhost:8020"),
+        "token": args.token or os.environ.get("REMEMBER_NOCODB_API_TOKEN", ""),
+        "table_id": args.table_id or os.environ.get("REMEMBER_NOCODB_TABLE_ID", ""),
     }
 
 
@@ -23,13 +23,13 @@ def build_headers(token):
 
 def ensure_config(config):
     if not config["token"]:
-        raise SystemExit("❌ 缺少 NOCODB_API_TOKEN，请先设置环境变量或传入 --token")
+        raise SystemExit("❌ 缺少 REMEMBER_NOCODB_API_TOKEN，请先设置环境变量或传入 --token")
     if not config["table_id"]:
-        raise SystemExit("❌ 缺少 NOCODB_TABLE_ID，请先设置环境变量或传入 --table-id")
+        raise SystemExit("❌ 缺少 REMEMBER_NOCODB_TABLE_ID，请先设置环境变量或传入 --table-id")
 
 
 def get_workspace_tmp():
-    workspace = os.environ.get("OPENCLAW_AGENT_WORKSPACE") or os.getcwd()
+    workspace = os.environ.get("REMEMBER_WORKSPACE") or os.environ.get("OPENCLAW_AGENT_WORKSPACE") or os.getcwd()
     tmp_dir = os.path.join(workspace, "tmp")
     os.makedirs(tmp_dir, exist_ok=True)
     return tmp_dir

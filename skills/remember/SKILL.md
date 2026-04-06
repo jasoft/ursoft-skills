@@ -24,10 +24,10 @@ This skill is installable on any machine.
 
 Set these environment variables when running on a new machine:
 
-- `NOCODB_URL`
-- `NOCODB_API_TOKEN`
-- `NOCODB_TABLE_ID`
-- `OPENCLAW_AGENT_WORKSPACE` optional, used only for image downloads
+- `REMEMBER_NOCODB_URL`
+- `REMEMBER_NOCODB_API_TOKEN`
+- `REMEMBER_NOCODB_TABLE_ID`
+- `REMEMBER_WORKSPACE` optional, used only for image downloads
 
 You can also pass the same values with command-line flags:
 
@@ -114,9 +114,8 @@ python3 skills/remember/scripts/manage_items.py delete <ID>
 - This database is shared with the user's NocoDB interface.
 - 图片自动下载后会保存在 `tmp/` 目录。
 - 找到多条记录时，先列候选项，再按需逐条处理。
-- The script uses environment variables first, then CLI flags, and finally safe defaults where possible.
+- The script uses `REMEMBER_`-prefixed environment variables first, then CLI flags, and finally safe defaults where possible.
 
 ## Schema
 
 The table structure is documented in `skills/remember/scripts/schema.sql`.
-
